@@ -45,7 +45,7 @@ public:
 		const float &tmp = (_partSize[0] * 2) / _cellNum;
 		return (1 - tmp <= _bFactor && tmp - 1 <= _bFactor);
 	}
-	void moveCell();	
+	void moveCell(Cell* cell);
 
 	// member functions about reporting
     void printSummary() const;

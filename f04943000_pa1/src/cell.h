@@ -55,6 +55,21 @@ public:
     void setGain(const int gain)    { _gain = gain; }
     void setPart(const bool part)   { _part = part; }
     void setName(const string name) { _name = name; }
+/*
+	//my function
+	void setInitGain(vector<Net*>& netMap){
+        for (size_t j = 0, m = _netList.size(); j < m; ++j) {
+            Net* net = netMap[netList[j]];
+            if(net->getPartCount(_part) == 1){
+                incGain();
+            }
+            else if(net->getPartCount(!_part) == 0){
+                decGain();
+            }
+        }
+        cout << "gain = " << getGain() << endl;
+	}
+*/
 
     // Modify methods
     void move()         { _part = !_part; }

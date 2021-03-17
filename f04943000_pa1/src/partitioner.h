@@ -37,6 +37,7 @@ public:
     //my function
 	void initParti();
 	void setInitG();
+	void setCutSize(int n) { _cutSize = n; }  
 	
 	// member functions about reporting
     void printSummary() const;

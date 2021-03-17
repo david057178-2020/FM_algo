@@ -72,7 +72,8 @@ void Partitioner::initParti()
 		cell->move();
 	}
 
-	//set part count
+	//set part count and cut size
+	int cutSize = 0;
 	for(size_t i = 0, n = getNetNum(); i < n; ++i){
 		Net* net = _netArray[i];
 		vector<int> cellList = net->getCellList();
@@ -80,7 +81,10 @@ void Partitioner::initParti()
 			Cell* cell = _cellArray[cellList[j]];
 			net->incPartCount(cell->getPart());
 		}
-	}	
+		if(net->getPartCount(0) > 0 && net->getPartCount(1) > 0) ++cutSize;
+	}
+	setCutSize(cutSize);
+
 }
 
 void Partitioner::setInitG()
@@ -88,14 +92,11 @@ void Partitioner::setInitG()
 	int n = getCellNum();
 	for(size_t i = 0; i < n; ++i){
 		Cell* cell = _cellArray[i];
-		cout << "cell: " << cell->getName() << endl;
 		bool F = cell->getPart();
 		bool T = !F;
         vector<int> netList = cell->getNetList();
 		for (size_t j = 0, m = netList.size(); j < m; ++j) {
 			Net* net = _netArray[netList[j]];
-			//cout << "net: " << net->getName() << endl; 
-			//cout << net->getPartCount(0) << ", " << net->getPartCount(1) << endl;;
 			if(net->getPartCount(F) == 1){
 				cell->incGain();
 			}
@@ -103,10 +104,7 @@ void Partitioner::setInitG()
 				cell->decGain();
 			}
 		}
-		//cout << endl;
-		cout << "gain = " << cell->getGain() << endl;
 	}
-	
 }
 
 void Partitioner::partition()

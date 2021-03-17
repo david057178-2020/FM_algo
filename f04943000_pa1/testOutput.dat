@@ -1,4 +1,4 @@
-Cutsize = 0
+Cutsize = 4
 G1 0
 c6 c5 c1 ;
 G2 0

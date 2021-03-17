@@ -63,8 +63,60 @@ void Partitioner::parseInput(fstream& inFile)
     return;
 }
 
+void Partitioner::initParti()
+{
+	//move node
+	int halfNode = getCellNum() / 2;
+	for(size_t i = 0; i < halfNode; ++i){
+		Cell* cell = _cellArray[i];
+		cell->move();
+	}
+
+	//set part count
+	for(size_t i = 0, n = getNetNum(); i < n; ++i){
+		Net* net = _netArray[i];
+		vector<int> cellList = net->getCellList();
+		for(size_t j = 0, m = cellList.size(); j < m; ++j){
+			Cell* cell = _cellArray[cellList[j]];
+			net->incPartCount(cell->getPart());
+		}
+	}	
+}
+
+void Partitioner::setInitG()
+{
+	int n = getCellNum();
+	for(size_t i = 0; i < n; ++i){
+		Cell* cell = _cellArray[i];
+		cout << "cell: " << cell->getName() << endl;
+		bool F = cell->getPart();
+		bool T = !F;
+        vector<int> netList = cell->getNetList();
+		for (size_t j = 0, m = netList.size(); j < m; ++j) {
+			Net* net = _netArray[netList[j]];
+			cout << "net: " << net->getName() << endl; 
+			cout << net->getPartCount(0) << ", " << net->getPartCount(1) << endl;;
+		}
+		cout << endl;
+	}	
+}
+
 void Partitioner::partition()
 {
+	//TODO
+	//initial partition
+	initParti();
+	
+	//set initial gain
+	setInitG();
+
+	//for loop until no improve
+		//for loop until all lock
+			//move the node with max gain
+
+			//update gain, size, lock
+		
+		//find max subseq
 
 }
 

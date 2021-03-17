@@ -28,6 +28,12 @@ public:
     void decPartCount(int part)     { --_partCount[part]; }
     void addCell(const int cellId)  { _cellList.push_back(cellId); }
 
+	/*
+	//for performance issue, I don't want to copy vector
+    //so I change _netList to public
+    vector<int> _cellList;
+	*/
+
 private:
     int             _partCount[2];  // Cell number in partition A(0) and B(1)
     string          _name;          // Name of the net

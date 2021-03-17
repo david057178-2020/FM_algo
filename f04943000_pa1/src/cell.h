@@ -66,6 +66,12 @@ public:
     void decPinNum()    { --_pinNum; }
     void addNet(const int netId) { _netList.push_back(netId); }
 
+	/*
+	//for performance issue, I don't want to copy vector
+	//so I change _netList to public
+	vector<int> _netList;
+	*/
+
 private:
     int             _gain;      // gain of the cell
     int             _pinNum;    // number of pins the cell are connected to

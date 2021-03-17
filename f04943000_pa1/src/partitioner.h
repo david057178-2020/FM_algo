@@ -34,7 +34,11 @@ public:
     void parseInput(fstream& inFile);
     void partition();
 
-    // member functions about reporting
+    //my function
+	void initParti();
+	void setInitG();
+	
+	// member functions about reporting
     void printSummary() const;
     void reportNet() const;
     void reportCell() const;

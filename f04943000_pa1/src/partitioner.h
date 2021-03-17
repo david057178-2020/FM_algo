@@ -41,6 +41,11 @@ public:
 	void setBSize(int n) { _partSize[0] = _cellNum - n; _partSize[1] = n; }
 	void setMaxPinNum(int n) { _maxPinNum = n; }
 	void setMaxGainCell(Cell* cell) { _maxGainCell = cell->getNode(); }
+	bool checkBalance(){
+		const float &tmp = (_partSize[0] * 2) / _cellNum;
+		return (1 - tmp <= _bFactor && tmp - 1 <= _bFactor);
+	}
+	void moveCell();	
 
 	// member functions about reporting
     void printSummary() const;

@@ -87,17 +87,14 @@ void Partitioner::initParti()
 	int cutSize = 0;
 	for(size_t i = 0, n = getNetNum(); i < n; ++i){
 		Net* net = _netArray[i];
-		vector<int> cellList = net->getCellList();
-		for(size_t j = 0, m = cellList.size(); j < m; ++j){
-			Cell* cell = _cellArray[cellList[j]];
+		vector<int>* cellList = net->getCellListPtr();
+		for(size_t j = 0, m = cellList->size(); j < m; ++j){
+			Cell* cell = _cellArray[(*cellList)[j]];
 			net->incPartCount(cell->getPart());
 		}
 		if(net->getPartCount(0) > 0 && net->getPartCount(1) > 0) ++cutSize;
 	}
 	setCutSize(cutSize);
-
-	
-
 }
 
 void Partitioner::setInitG()
@@ -112,10 +109,10 @@ void Partitioner::setInitG()
 	for(size_t i = 0; i < n; ++i){
 		cell = _cellArray[i];
 		part = cell->getPart();
-        vector<int> netList = cell->getNetList();
+        vector<int>* netList = cell->getNetListPtr();
 		//compute gain of each cell
-		for (size_t j = 0, m = netList.size(); j < m; ++j) {
-			Net* net = _netArray[netList[j]];
+		for (size_t j = 0, m = netList->size(); j < m; ++j) {
+			Net* net = _netArray[(*netList)[j]];
 			if(net->getPartCount(part) == 1){
 				cell->incGain();
 			}
@@ -135,11 +132,11 @@ void Partitioner::setInitG()
 		map<int, Node*>::iterator it = _bList[part].find(gain);
 		if(it != _bList[part].end()){
 			node = it->second;
-			cout << "in (part, gain) = (" << part << ", " << gain << "), ";
-			cout << "find node " << _cellArray[node->getId()]->getName() << endl; 
+			//cout << "in (part, gain) = (" << part << ", " << gain << "), ";
+			//cout << "find node " << _cellArray[node->getId()]->getName() << endl; 
 			while(node->getNext() != NULL){
 				node = node->getNext();
-				cout << "---> node " << _cellArray[node->getId()]->getName() << endl;
+				//cout << "---> node " << _cellArray[node->getId()]->getName() << endl;
 			}
 			node->setNext(cell->getNode());
 			cell->getNode()->setPrev(node);
@@ -171,8 +168,33 @@ void Partitioner::setInitG()
             cout << "---> node " << _cellArray[node->getId()]->getName() << endl;
         }
     }
+	
+}
+/*
+void Partitioner::moveCell()
+{
+	Node* node = _maxGainCell;
+	Cell* cell = _cellArray[node->getId()];
+	bool F = cell->getPart();
+	bool T = !F;
+	cell->move();
+	cell->lock();
+
+	vector<int>* netList = cell->getNetListPtr();
+    //for each net on base cell
+    for (size_t j = 0, m = netList->size(); j < m; ++j) {
+        Net* net = _netArray[(*netList)[j]];
+		//before move
+		if(net->_partCount[T] == 0){
+			//++gain for all free cell on n
+			vector<int>* cellList = net->getCellListPtr();
+		}	
+    }
+
+
 
 }
+*/
 
 void Partitioner::partition()
 {
@@ -183,14 +205,27 @@ void Partitioner::partition()
 	//set initial gain
 	setInitG();
 
-	//for loop until no improve
+
+/*
+	//iteratively until no improve
+	do{
 		//for loop until all lock
+		for(_iterNum = 0; _iterNum <_cellNum; ++_iterNum){
 			//move the node with max gain
+			Node* node = _maxGainCell;
+			Cell* cell = _cellArray[node->getId()];
+			cell->move();
+
 
 			//update gain, size, lock
 		
+		}
 		//find max subseq
 
+			
+		
+	} while(_maxAccGain > 0);
+*/
 }
 
 void Partitioner::printSummary() const
@@ -212,9 +247,9 @@ void Partitioner::reportNet() const
     cout << "Number of nets: " << _netNum << endl;
     for (size_t i = 0, end_i = _netArray.size(); i < end_i; ++i) {
         cout << setw(8) << _netArray[i]->getName() << ": ";
-        vector<int> cellList = _netArray[i]->getCellList();
-        for (size_t j = 0, end_j = cellList.size(); j < end_j; ++j) {
-            cout << setw(8) << _cellArray[cellList[j]]->getName() << " ";
+        vector<int>* cellList = _netArray[i]->getCellListPtr();
+        for (size_t j = 0, end_j = cellList->size(); j < end_j; ++j) {
+            cout << setw(8) << _cellArray[(*cellList)[j]]->getName() << " ";
         }
         cout << endl;
     }
@@ -226,9 +261,9 @@ void Partitioner::reportCell() const
     cout << "Number of cells: " << _cellNum << endl;
     for (size_t i = 0, end_i = _cellArray.size(); i < end_i; ++i) {
         cout << setw(8) << _cellArray[i]->getName() << ": ";
-        vector<int> netList = _cellArray[i]->getNetList();
-        for (size_t j = 0, end_j = netList.size(); j < end_j; ++j) {
-            cout << setw(8) << _netArray[netList[j]]->getName() << " ";
+        vector<int>* netList = _cellArray[i]->getNetListPtr();
+        for (size_t j = 0, end_j = netList->size(); j < end_j; ++j) {
+            cout << setw(8) << _netArray[(*netList)[j]]->getName() << " ";
         }
         cout << endl;
     }

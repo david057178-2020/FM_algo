@@ -17,7 +17,7 @@ public:
     // basic access methods
     string getName()           const { return _name; }
     int getPartCount(int part) const { return _partCount[part]; }
-    vector<int> getCellList()  const { return _cellList; }
+    //vector<int> getCellList()  const { return _cellList; }
 
     // set functions
     void setName(const string name) { _name = name; }
@@ -28,11 +28,8 @@ public:
     void decPartCount(int part)     { --_partCount[part]; }
     void addCell(const int cellId)  { _cellList.push_back(cellId); }
 
-	/*
-	//for performance issue, I don't want to copy vector
-    //so I change _netList to public
-    vector<int> _cellList;
-	*/
+	//my function
+    vector<int>* getCellListPtr() { return &_cellList; }
 
 private:
     int             _partCount[2];  // Cell number in partition A(0) and B(1)

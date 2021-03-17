@@ -48,30 +48,18 @@ public:
     Node* getNode() const   { return _node; }
     string getName() const  { return _name; }
     int getFirstNet() const { return _netList[0]; }
-    vector<int> getNetList() const  { return _netList; }
+    //vector<int> getNetList() const  { return _netList; }
 
     // Set functions
     void setNode(Node* node)        { _node = node; }
     void setGain(const int gain)    { _gain = gain; }
     void setPart(const bool part)   { _part = part; }
     void setName(const string name) { _name = name; }
-/*
-	//my function
-	void setInitGain(vector<Net*>& netMap){
-        for (size_t j = 0, m = _netList.size(); j < m; ++j) {
-            Net* net = netMap[netList[j]];
-            if(net->getPartCount(_part) == 1){
-                incGain();
-            }
-            else if(net->getPartCount(!_part) == 0){
-                decGain();
-            }
-        }
-        cout << "gain = " << getGain() << endl;
-	}
-*/
 
-    // Modify methods
+	//my function
+	vector<int>* getNetListPtr() { return &_netList; }
+    
+	// Modify methods
     void move()         { _part = !_part; }
     void lock()         { _lock = true; }
     void unlock()       { _lock = false; }
@@ -80,12 +68,6 @@ public:
     void incPinNum()    { ++_pinNum; }
     void decPinNum()    { --_pinNum; }
     void addNet(const int netId) { _netList.push_back(netId); }
-
-	/*
-	//for performance issue, I don't want to copy vector
-	//so I change _netList to public
-	vector<int> _netList;
-	*/
 
 private:
     int             _gain;      // gain of the cell

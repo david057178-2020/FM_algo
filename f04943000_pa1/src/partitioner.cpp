@@ -65,12 +65,25 @@ void Partitioner::parseInput(fstream& inFile)
 
 void Partitioner::initParti()
 {
-	//move node
+	//move node and set part size and set max pin
 	int halfNode = getCellNum() / 2;
+	Cell* cell;
 	for(size_t i = 0; i < halfNode; ++i){
-		Cell* cell = _cellArray[i];
+		cell = _cellArray[i];
 		cell->move();
 	}
+	setBSize(halfNode);
+
+	//set max pin num
+	int maxPin = 0;
+	for(size_t i = 0, n = getCellNum(); i < n; ++i){
+		cell = _cellArray[i];
+		if(cell->getPinNum() > maxPin) maxPin = cell->getPinNum();
+	}
+	setMaxPinNum(maxPin); 
+	cout << "max pin num = " << maxPin << endl;
+
+
 
 	//set part count and cut size
 	int cutSize = 0;
@@ -84,6 +97,8 @@ void Partitioner::initParti()
 		if(net->getPartCount(0) > 0 && net->getPartCount(1) > 0) ++cutSize;
 	}
 	setCutSize(cutSize);
+
+	
 
 }
 

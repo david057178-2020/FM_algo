@@ -81,9 +81,7 @@ void Partitioner::initParti()
 		if(cell->getPinNum() > maxPin) maxPin = cell->getPinNum();
 	}
 	setMaxPinNum(maxPin); 
-	cout << "max pin num = " << maxPin << endl;
-
-
+	//cout << "max pin num = " << maxPin << endl;
 
 	//set part count and cut size
 	int cutSize = 0;
@@ -105,21 +103,75 @@ void Partitioner::initParti()
 void Partitioner::setInitG()
 {
 	int n = getCellNum();
+	int maxG = 0;
+	Cell* maxGainCell;
+	Cell* cell;
+	bool part;
+	int gain;
+	Node* node;
 	for(size_t i = 0; i < n; ++i){
-		Cell* cell = _cellArray[i];
-		bool F = cell->getPart();
-		bool T = !F;
+		cell = _cellArray[i];
+		part = cell->getPart();
         vector<int> netList = cell->getNetList();
+		//compute gain of each cell
 		for (size_t j = 0, m = netList.size(); j < m; ++j) {
 			Net* net = _netArray[netList[j]];
-			if(net->getPartCount(F) == 1){
+			if(net->getPartCount(part) == 1){
 				cell->incGain();
 			}
-			else if(net->getPartCount(T) == 0){
+			else if(net->getPartCount(!part) == 0){
 				cell->decGain();
 			}
 		}
+		
+		gain = cell->getGain();
+		//record max gain cell
+		if(gain > maxG) {
+			maxG = gain;
+			maxGainCell = cell;
+		}
+
+		//record bList
+		map<int, Node*>::iterator it = _bList[part].find(gain);
+		if(it != _bList[part].end()){
+			node = it->second;
+			cout << "in (part, gain) = (" << part << ", " << gain << "), ";
+			cout << "find node " << _cellArray[node->getId()]->getName() << endl; 
+			while(node->getNext() != NULL){
+				node = node->getNext();
+				cout << "---> node " << _cellArray[node->getId()]->getName() << endl;
+			}
+			node->setNext(cell->getNode());
+			cell->getNode()->setPrev(node);
+		}
+		else{
+			_bList[part][gain] = cell->getNode();
+		}
 	}
+	setMaxGainCell(maxGainCell);
+	
+	cout << endl << "A list is:" << endl;
+	for(map<int, Node*>::iterator it = _bList[0].begin(); it != _bList[0].end(); ++it){
+		cout << "gain = " << it->first << endl;
+		node = it->second;
+		cout << "cell =  " << _cellArray[node->getId()]->getName() << endl;
+		while(node->getNext() != NULL){
+			node = node->getNext();
+            cout << "---> node " << _cellArray[node->getId()]->getName() << endl;
+        }
+	}
+
+	cout << endl << "B list is:" << endl;
+    for(map<int, Node*>::iterator it = _bList[1].begin(); it != _bList[1].end(); ++it){
+        cout << "gain = " << it->first << endl;
+        node = it->second;
+        cout << "cell =  " << _cellArray[node->getId()]->getName() << endl;
+        while(node->getNext() != NULL){
+            node = node->getNext();
+            cout << "---> node " << _cellArray[node->getId()]->getName() << endl;
+        }
+    }
+
 }
 
 void Partitioner::partition()

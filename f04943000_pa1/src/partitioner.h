@@ -39,7 +39,8 @@ public:
 	void setInitG();
 	void setCutSize(int n) { _cutSize = n; }  
 	void setBSize(int n) { _partSize[0] = _cellNum - n; _partSize[1] = n; }
-	void setMaxPinNum(int n){ _maxPinNum = n; }
+	void setMaxPinNum(int n) { _maxPinNum = n; }
+	void setMaxGainCell(Cell* cell) { _maxGainCell = cell->getNode(); }
 
 	// member functions about reporting
     void printSummary() const;

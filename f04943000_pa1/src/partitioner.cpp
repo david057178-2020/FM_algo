@@ -83,16 +83,35 @@ void Partitioner::initParti()
 	setMaxPinNum(maxPin); 
 	//cout << "max pin num = " << maxPin << endl;
 
-	//set part count and cut size
+	//set part count and cut size and along cell
 	int cutSize = 0;
 	for(size_t i = 0, n = getNetNum(); i < n; ++i){
 		Net* net = _netArray[i];
 		vector<int>* cellList = net->getCellListPtr();
 		for(size_t j = 0, m = cellList->size(); j < m; ++j){
 			Cell* cell = _cellArray[(*cellList)[j]];
-			net->incPartCount(cell->getPart());
+			bool part = cell->getPart();
+			//set part count
+			net->incPartCount(part);
+			//set along cell
+			if(net->getPartCount(part) == 1){
+				net->setAlongCell(part, cell->getNode()->getId());
+			}
 		}
+		//record cut size
 		if(net->getPartCount(0) > 0 && net->getPartCount(1) > 0) ++cutSize;
+
+		//debug: check if there is along cell
+		if(net->getPartCount(0) == 1){
+			cout << "net " << net->getName() << " has along cell in part A: ";
+		    cout << _cellArray[net->getAlongCell(0)]->getName() << endl;
+		}
+		if(net->getPartCount(1) == 1){
+			cout << "net " << net->getName() << " has along cell in part B: ";
+		    cout << _cellArray[net->getAlongCell(1)]->getName() << endl;
+		}
+
+
 	}
 	setCutSize(cutSize);
 }
@@ -146,7 +165,7 @@ void Partitioner::setInitG()
 		}
 	}
 	setMaxGainCell(maxGainCell);
-	
+/*	
 	cout << endl << "A list is:" << endl;
 	for(map<int, Node*>::iterator it = _bList[0].begin(); it != _bList[0].end(); ++it){
 		cout << "gain = " << it->first << endl;
@@ -168,19 +187,19 @@ void Partitioner::setInitG()
             cout << "---> node " << _cellArray[node->getId()]->getName() << endl;
         }
     }
-	
+*/	
 }
 /*
 void Partitioner::moveCell()
 {
 	Node* node = _maxGainCell;
-	Cell* cell = _cellArray[node->getId()];
-	bool F = cell->getPart();
+	Cell* baseCell = _cellArray[node->getId()];
+	bool F = baseCell->getPart();
 	bool T = !F;
-	cell->move();
-	cell->lock();
+	baseCell->move();
+	baseCell->lock();
 
-	vector<int>* netList = cell->getNetListPtr();
+	vector<int>* netList = baseCell->getNetListPtr();
     //for each net on base cell
     for (size_t j = 0, m = netList->size(); j < m; ++j) {
         Net* net = _netArray[(*netList)[j]];
@@ -188,10 +207,25 @@ void Partitioner::moveCell()
 		if(net->_partCount[T] == 0){
 			//++gain for all free cell on n
 			vector<int>* cellList = net->getCellListPtr();
-		}	
+			for(int j = 0, m = cellList->size(); j < m; ++j){
+				Cell* cell = _netArray[(*cellList)[j]];
+				if(!cell->getLock()){
+					cell->incGain();
+				}
+			}
+		}
+		else if(net->_partCount[T] == 1){
+			//--gain of that cell
+			vector<int>* cellList = net->getCellListPtr();
+            for(int j = 0, m = cellList->size(); j < m; ++j){
+                Cell* cell = _netArray[(*cellList)[j]];
+                if((cell->getPart() == T) && (!cell->getLock())){
+                    cell->decGain();
+					break;
+                }
+            }
+		}
     }
-
-
 
 }
 */

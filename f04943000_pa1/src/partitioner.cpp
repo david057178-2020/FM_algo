@@ -94,11 +94,19 @@ void Partitioner::setInitG()
         vector<int> netList = cell->getNetList();
 		for (size_t j = 0, m = netList.size(); j < m; ++j) {
 			Net* net = _netArray[netList[j]];
-			cout << "net: " << net->getName() << endl; 
-			cout << net->getPartCount(0) << ", " << net->getPartCount(1) << endl;;
+			//cout << "net: " << net->getName() << endl; 
+			//cout << net->getPartCount(0) << ", " << net->getPartCount(1) << endl;;
+			if(net->getPartCount(F) == 1){
+				cell->incGain();
+			}
+			else if(net->getPartCount(T) == 0){
+				cell->decGain();
+			}
 		}
-		cout << endl;
-	}	
+		//cout << endl;
+		cout << "gain = " << cell->getGain() << endl;
+	}
+	
 }
 
 void Partitioner::partition()

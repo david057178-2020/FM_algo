@@ -58,6 +58,8 @@ public:
 
 	//my function
 	vector<int>* getNetListPtr() { return &_netList; }
+	//bool getChange() { return _gainChange; }
+	//void setChange(bool b) { _gainChange = b; }
     
 	// Modify methods
     void move()         { _part = !_part; }
@@ -77,6 +79,9 @@ private:
     Node*           _node;      // node used to link the cells together
     string          _name;      // name of the cell
     vector<int>     _netList;   // list of nets the cell is connected to
+
+	//for update bList
+	//bool            _gainChange;
 };
 
 #endif  // CELL_H

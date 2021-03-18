@@ -49,6 +49,7 @@ public:
 	void changeAllGainOnNet(Net* net, bool b); //dec(0), inc(1)
 	void changeOneGainOnNet(Net* net, bool b, bool part); //A(0), B(1)
 	//void moveInBList(int from, int to);
+	void printBList();
 	void updateList(Cell* cell);
 	void deleteNode(Node* node);
 	void insertNode(Node* node);	

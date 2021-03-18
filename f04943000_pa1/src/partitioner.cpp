@@ -159,27 +159,27 @@ void Partitioner::printBList()
 	Node* node;
 	cout << endl << "A list is:" << endl;
 	for(map<int, Node*>::iterator it = _bList[0].begin(); it != _bList[0].end(); ++it){
-		cout << "gain = " << it->first << endl;
 		node = it->second;
-		if(node->getId() == -1) cout << "---> dummy node" << endl;
-		else cout << "error: no dummy node!" << endl;
+		if(node->getNext() == NULL) continue;
+		cout << "gain = " << it->first << endl;
+		cout << "	---> dummy node" << endl;
 		//cout << "---> node " << _cellArray[node->getId()]->getName() << endl;
 		while(node->getNext() != NULL){
 			node = node->getNext();
-            cout << "---> node " << _cellArray[node->getId()]->getName() << endl;
+            cout << "	---> node " << _cellArray[node->getId()]->getName() << endl;
         }
 	}
 
 	cout << endl << "B list is:" << endl;
     for(map<int, Node*>::iterator it = _bList[1].begin(); it != _bList[1].end(); ++it){
-        cout << "gain = " << it->first << endl;
         node = it->second;
-		if(node->getId() == -1) cout << "---> dummy node" << endl;
-		else cout << "error: no dummy node!" << endl;
+		if(node->getNext() == NULL) continue;
+        cout << "gain = " << it->first << endl;
+		cout << "	---> dummy node" << endl;
         //cout << "cell =  " << _cellArray[node->getId()]->getName() << endl;
         while(node->getNext() != NULL){
             node = node->getNext();
-            cout << "---> node " << _cellArray[node->getId()]->getName() << endl;
+            cout << "	---> node " << _cellArray[node->getId()]->getName() << endl;
         }
     }
 
@@ -189,12 +189,14 @@ void Partitioner::deleteNode(Node* node)
 {
 	Node* pre = node->getPrev();
 	Node* next = node->getNext();
-	if(pre != NULL){ //A->node
+	if(pre != NULL){ //pre->node->next
 		pre->setNext(next);
 	    if(next != NULL){ //A->node->B
 			next->setPrev(pre);
 		}
 	}
+	else cout << "error: impossible a node is head" << endl;
+	/*
 	else{//node is head, so need to modified map
 		if(next != NULL){ //node->B
 			next->setPrev(NULL);
@@ -226,7 +228,8 @@ void Partitioner::deleteNode(Node* node)
 				_bList[!part].erase(gain);
 			}
 		}
-	}	
+	}
+	*/	
 }
 
 void Partitioner::insertNode(Node* node)
@@ -259,22 +262,31 @@ void Partitioner::insertNode(Node* node)
     }
 	*/
 }
-/*
+
 void Partitioner::updateList(Cell* baseCell)
 {
+	vector<int>* netList = baseCell->getNetListPtr();
+	Net* net;
 	Cell* cell;
 	Node* node;
-	for(size_t i = 0, n = _cellNum; i < n; ++i){
-		cell = _cellArray[i];
-		node = cell->getNode();
-		if(cell->getChange()){
-			deleteNode(node);
-			insertNode(node);
-			//cell->setChange(false);
+	vector<bool> recordMap;
+	recordMap.reserve(_cellNum);
+	recordMap.resize(_cellNum);
+	for(size_t i = 0, n = netList->size(); i < n; ++i){
+		net = _netArray[(*netList)[i]];
+		vector<int>* cellList = net->getCellListPtr();
+		for(size_t j = 0, m = cellList->size(); j < m; ++j){
+			cell = _cellArray[(*cellList)[j]];
+			node = cell->getNode();
+			if(!recordMap[node->getId()]){
+				deleteNode(node);
+				insertNode(node);
+				recordMap[node->getId()] = true;
+			}
 		}
 	}
 }
-*/
+
 void Partitioner::changeAllGainOnNet(Net* net, bool b)
 {
 	//cout << "for all cell in net " << net->getName() << endl;
@@ -383,12 +395,10 @@ void Partitioner::partition()
 	//TODO
 	//initial partition
 	initParti();
+	//initial bucket list
 	initBList();
-	
 	//set initial gain
 	setInitG();
-
-
 
 	//iteratively until no improve
 	do{
@@ -397,9 +407,10 @@ void Partitioner::partition()
 			//move the node with max gain
 			//for debug, try to move each node
 			updateGain(_cellArray[_iterNum]);
-			//updateList(_cellArray[_iterNum]);
-			//cout << "after moving cell " << _cellArray[_iterNum]->getName() << endl;
-			//printBList();
+			updateList(_cellArray[_iterNum]);
+			
+			cout << "after moving cell " << _cellArray[_iterNum]->getName() << endl;
+			printBList();
 			/*		
 			for(int i = 0; i < _cellNum; ++i){
 				Cell* cell = _cellArray[i];

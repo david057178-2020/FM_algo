@@ -46,6 +46,9 @@ public:
 		return (1 - tmp <= _bFactor && tmp - 1 <= _bFactor);
 	}
 	void updateGain(Cell* cell);
+	void changeAllGainOnNet(Net* net, bool b); //dec(0), inc(1)
+	void changeOneGainOnNet(Net* net, bool b, bool part); //A(0), B(1)
+	void moveInBList(int from, int to);
 
 	// member functions about reporting
     void printSummary() const;

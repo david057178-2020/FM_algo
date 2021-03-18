@@ -93,10 +93,12 @@ void Partitioner::initParti()
 			bool part = cell->getPart();
 			//set part count
 			net->incPartCount(part);
+			/*
 			//set along cell
 			if(net->getPartCount(part) == 1){
 				net->setAlongCell(part, cell->getNode()->getId());
 			}
+			*/
 		}
 		//record cut size
 		if(net->getPartCount(0) > 0 && net->getPartCount(1) > 0) ++cutSize;
@@ -190,13 +192,11 @@ void Partitioner::setInitG()
 */	
 }
 
-void Partitioner::moveCell(Cell* baseCell)
+void Partitioner::updateGain(Cell* baseCell)
 {
 	cout << "consider cell " << baseCell->getName() << endl;
 	bool F = baseCell->getPart();
 	bool T = !F;
-	baseCell->move();
-	baseCell->lock();
 
 	//update gain
 	vector<int>* netList = baseCell->getNetListPtr();
@@ -216,15 +216,23 @@ void Partitioner::moveCell(Cell* baseCell)
 		}
 		else if(net->getPartCount(T) == 1){
 			//--gain of that cell
-			Cell* cell = _cellArray[net->getAlongCell(T)];
-			if(!cell->getLock()){
-				cell->decGain();
-			}
+			//Cell* cell = _cellArray[net->getAlongCell(T)];
+			vector<int>* cellList = net->getCellListPtr();
+            for(int j = 0, m = cellList->size(); j < m; ++j){
+                Cell* cell = _cellArray[(*cellList)[j]];
+				if(cell->getPart() == T){
+					if(!cell->getLock()){
+						cell->decGain();
+					}
+					break;
+				}
+            }
 		}
 
 		//during move
 		//F = F - 1 
 		net->decPartCount(F);
+		/*
 		//update along cell
 		if(net->getPartCount(F) == 1){
 			vector<int>* cellList = net->getCellListPtr();
@@ -236,12 +244,15 @@ void Partitioner::moveCell(Cell* baseCell)
 				}
             }
 		}
+		*/
 		//T = T + 1
 		net->incPartCount(T);
+		/*
 		//update along cell
 		if(net->getPartCount(T) == 1){
 			net->setAlongCell(T, baseCell->getNode()->getId());
 		}
+		*/
 
 		//after move
 		if(net->getPartCount(F) == 0){
@@ -256,10 +267,22 @@ void Partitioner::moveCell(Cell* baseCell)
 		}
 		else if(net->getPartCount(F) == 1){
             //++gain of that cell
+			vector<int>* cellList = net->getCellListPtr();
+            for(int j = 0, m = cellList->size(); j < m; ++j){
+                Cell* cell = _cellArray[(*cellList)[j]];
+                if(cell->getPart() == F){
+                    if(!cell->getLock()){
+                        cell->incGain();
+                    }
+                }
+            }
+
+			/*
             Cell* cell = _cellArray[net->getAlongCell(F)];
             if(!cell->getLock()){
                 cell->incGain();
             }
+			*/
         }
     }//done for each net on base cell
 
@@ -283,12 +306,17 @@ void Partitioner::partition()
 		for(_iterNum = 0; _iterNum <_cellNum; ++_iterNum){
 			//move the node with max gain
 
+
+
+			_cellArray[_iterNum]->lock();
 			//for debug, try to move each node
-			moveCell(_cellArray[_iterNum]);
+			updateGain(_cellArray[_iterNum]);
+			
 			for(int i = 0; i < _cellNum; ++i){
 				Cell* cell = _cellArray[i];
 				cout << "(cell, gain) = (" << cell->getName() << ", " << cell->getGain() << ")" << endl; 
 			}
+			
 			//update gain, size, lock
 		
 		}

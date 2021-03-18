@@ -30,15 +30,15 @@ public:
 
 	//my function
     vector<int>* getCellListPtr() { return &_cellList; }
-	void setAlongCell(int part, const int cellId){ _alongCell[part] = cellId; }
-	int getAlongCell(int part) { return _alongCell[part]; }
+	//void setAlongCell(int part, const int cellId){ _alongCell[part] = cellId; }
+	//int getAlongCell(int part) { return _alongCell[part]; }
 
 private:
     int             _partCount[2];  // Cell number in partition A(0) and B(1)
     string          _name;          // Name of the net
     vector<int>     _cellList;      // List of cells the net is connected to
 	//my implement
-	int             _alongCell[2];  // The only cell in A(0) and B(1)
+	//int             _alongCell[2];  // The only cell in A(0) and B(1)
 };
 
 #endif  // NET_H

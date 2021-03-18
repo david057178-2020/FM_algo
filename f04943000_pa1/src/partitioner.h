@@ -53,6 +53,7 @@ public:
 	void updateList(Cell* cell);
 	void deleteNode(Node* node);
 	void insertNode(Node* node);	
+	void initBList();
 
 	// member functions about reporting
     void printSummary() const;

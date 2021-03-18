@@ -83,7 +83,7 @@ void Partitioner::initParti()
 	setMaxPinNum(maxPin); 
 	//cout << "max pin num = " << maxPin << endl;
 
-	//set part count and cut size and along cell
+	//set part count and cut size
 	int cutSize = 0;
 	for(size_t i = 0, n = getNetNum(); i < n; ++i){
 		Net* net = _netArray[i];
@@ -99,6 +99,17 @@ void Partitioner::initParti()
 
 	}
 	setCutSize(cutSize);
+}
+
+void Partitioner::initBList()
+{
+	for(int i = -_maxPinNum; i <= _maxPinNum; ++i){
+		Node* dNode1 = new Node(-1);
+		_bList[0][i] = dNode1;
+		Node* dNode2 = new Node(-1);
+		_bList[1][i] = dNode2;
+	}
+
 }
 
 void Partitioner::setInitG()
@@ -150,7 +161,9 @@ void Partitioner::printBList()
 	for(map<int, Node*>::iterator it = _bList[0].begin(); it != _bList[0].end(); ++it){
 		cout << "gain = " << it->first << endl;
 		node = it->second;
-		cout << "cell =  " << _cellArray[node->getId()]->getName() << endl;
+		if(node->getId() == -1) cout << "---> dummy node" << endl;
+		else cout << "error: no dummy node!" << endl;
+		//cout << "---> node " << _cellArray[node->getId()]->getName() << endl;
 		while(node->getNext() != NULL){
 			node = node->getNext();
             cout << "---> node " << _cellArray[node->getId()]->getName() << endl;
@@ -161,7 +174,9 @@ void Partitioner::printBList()
     for(map<int, Node*>::iterator it = _bList[1].begin(); it != _bList[1].end(); ++it){
         cout << "gain = " << it->first << endl;
         node = it->second;
-        cout << "cell =  " << _cellArray[node->getId()]->getName() << endl;
+		if(node->getId() == -1) cout << "---> dummy node" << endl;
+		else cout << "error: no dummy node!" << endl;
+        //cout << "cell =  " << _cellArray[node->getId()]->getName() << endl;
         while(node->getNext() != NULL){
             node = node->getNext();
             cout << "---> node " << _cellArray[node->getId()]->getName() << endl;
@@ -220,6 +235,15 @@ void Partitioner::insertNode(Node* node)
 	const int& gain = cell->getGain();
 	const int& part = cell->getPart();
 
+	Node* dNode = _bList[part][gain];
+	Node* next = dNode->getNext();
+	node->setPrev(dNode);
+	node->setNext(next);
+	dNode->setNext(node);
+	if(next != NULL) next->setPrev(node);
+
+
+	/*
 	map<int, Node*>::iterator it = _bList[part].find(gain);
     if(it != _bList[part].end()){
         Node* A = it->second;
@@ -233,6 +257,7 @@ void Partitioner::insertNode(Node* node)
     else{
         _bList[part][gain] = node;
     }
+	*/
 }
 /*
 void Partitioner::updateList(Cell* baseCell)
@@ -358,6 +383,7 @@ void Partitioner::partition()
 	//TODO
 	//initial partition
 	initParti();
+	initBList();
 	
 	//set initial gain
 	setInitG();
@@ -372,8 +398,8 @@ void Partitioner::partition()
 			//for debug, try to move each node
 			updateGain(_cellArray[_iterNum]);
 			//updateList(_cellArray[_iterNum]);
-			cout << "after moving cell " << _cellArray[_iterNum]->getName() << endl;
-			printBList();
+			//cout << "after moving cell " << _cellArray[_iterNum]->getName() << endl;
+			//printBList();
 			/*		
 			for(int i = 0; i < _cellNum; ++i){
 				Cell* cell = _cellArray[i];

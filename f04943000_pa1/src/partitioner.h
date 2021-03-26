@@ -37,17 +37,17 @@ public:
     //my function
 	void initParti();
 	void setInitG();
-	void setCutSize(int n) { _cutSize = n; }  
-	void setBSize(int n) { _partSize[0] = _cellNum - n; _partSize[1] = n; }
-	void setMaxPinNum(int n) { _maxPinNum = n; }
+	void setCutSize(const int& n) { _cutSize = n; }  
+	void setBSize(const int& n) { _partSize[0] = _cellNum - n; _partSize[1] = n; }
+	void setMaxPinNum(const int& n) { _maxPinNum = n; }
 	void setMaxGainCell(Cell* cell) { _maxGainCell = cell->getNode(); }
 	bool checkBalance(){
 		const float &tmp = (_partSize[0] * 2) / _cellNum;
 		return (1 - tmp <= _bFactor && tmp - 1 <= _bFactor);
 	}
 	void updateGain(Cell* cell);
-	void changeAllGainOnNet(Net* net, bool b); //dec(0), inc(1)
-	void changeOneGainOnNet(Net* net, bool b, bool part); //A(0), B(1)
+	void changeAllGainOnNet(Net* net, const bool& b); //dec(0), inc(1)
+	void changeOneGainOnNet(Net* net, const bool& b, const bool& part); //A(0), B(1)
 	//void moveInBList(int from, int to);
 	void printBList();
 	void updateList(Cell* cell);

@@ -6,6 +6,7 @@ EXECUTABLE=fm
 INCLUDES=src/cell.h src/net.h src/partitioner.h
 
 all: $(SOURCES) bin/$(EXECUTABLE)
+	ctags -R *
 
 bin/$(EXECUTABLE): $(OBJECTS)
 	$(CC) $(LDFLAGS) $(OBJECTS) -o $@

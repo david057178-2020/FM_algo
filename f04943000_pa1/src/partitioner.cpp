@@ -66,7 +66,7 @@ void Partitioner::parseInput(fstream& inFile)
 void Partitioner::initParti()
 {
 	//move node and set part size and set max pin
-	int halfNode = getCellNum() / 2;
+	const int halfNode = getCellNum() / 2;
 	Cell* cell;
 	for(size_t i = 0; i < halfNode; ++i){
 		cell = _cellArray[i];
@@ -85,12 +85,14 @@ void Partitioner::initParti()
 
 	//set part count and cut size
 	int cutSize = 0;
+	Net* net;
+	vector<int>* cellList;
 	for(size_t i = 0, n = getNetNum(); i < n; ++i){
-		Net* net = _netArray[i];
-		vector<int>* cellList = net->getCellListPtr();
+		net = _netArray[i];
+		cellList = net->getCellListPtr();
 		for(size_t j = 0, m = cellList->size(); j < m; ++j){
-			Cell* cell = _cellArray[(*cellList)[j]];
-			bool part = cell->getPart();
+			cell = _cellArray[(*cellList)[j]];
+			const bool& part = cell->getPart();
 			//set part count
 			net->incPartCount(part);
 		}
@@ -104,30 +106,28 @@ void Partitioner::initParti()
 void Partitioner::initBList()
 {
 	for(int i = -_maxPinNum; i <= _maxPinNum; ++i){
-		Node* dNode1 = new Node(-1);
-		_bList[0][i] = dNode1;
-		Node* dNode2 = new Node(-1);
-		_bList[1][i] = dNode2;
+		_bList[0][i] = new Node(-1);
+		_bList[1][i] = new Node(-1);
 	}
 
 }
 
 void Partitioner::setInitG()
 {
-	int n = getCellNum();
+	const int n = getCellNum();
 	int maxG = 0;
 	Cell* maxGainCell;
 	Cell* cell;
-	bool part;
-	int gain;
 	Node* node;
+	vector<int>* netList;
+	Net* net;
 	for(size_t i = 0; i < n; ++i){
 		cell = _cellArray[i];
-		part = cell->getPart();
-        vector<int>* netList = cell->getNetListPtr();
+		const bool& part = cell->getPart();
+        netList = cell->getNetListPtr();
 		//compute gain of each cell
 		for (size_t j = 0, m = netList->size(); j < m; ++j) {
-			Net* net = _netArray[(*netList)[j]];
+			net = _netArray[(*netList)[j]];
 			if(net->getPartCount(part) == 1){
 				cell->incGain();
 			}
@@ -136,7 +136,7 @@ void Partitioner::setInitG()
 			}
 		}
 		
-		gain = cell->getGain();
+		const int& gain = cell->getGain();
 		//record max gain cell
 		if(gain > maxG) {
 			maxG = gain;
@@ -149,9 +149,6 @@ void Partitioner::setInitG()
 		//cell->setChange(false);
 	}
 	setMaxGainCell(maxGainCell);
-	
-	//for debug
-	printBList();
 }
 
 void Partitioner::printBList()
@@ -189,47 +186,11 @@ void Partitioner::deleteNode(Node* node)
 {
 	Node* pre = node->getPrev();
 	Node* next = node->getNext();
-	if(pre != NULL){ //pre->node->next
-		pre->setNext(next);
-	    if(next != NULL){ //A->node->B
-			next->setPrev(pre);
-		}
+	
+	pre->setNext(next);
+	if(next != NULL){
+		next->setPrev(pre);
 	}
-	else cout << "error: impossible a node is head" << endl;
-	/*
-	else{//node is head, so need to modified map
-		if(next != NULL){ //node->B
-			next->setPrev(NULL);
-			//update map
-			Cell* cell = _cellArray[next->getId()];
-			const bool& part = cell->getPart();
-			const int& gain = cell->getGain();
-			if(_bList[part][gain] == node){
-				_bList[part][gain] = next;
-			}
-			else{//this node is base node
-				//for debug
-				if(_bList[!part][gain] != node) cout << "error in delete node!!!!!!" << endl;
-
-				_bList[!part][gain] = next;
-			}
-		}
-		else{//it is the only node in this entry
-			Cell* cell = _cellArray[node->getId()];
-			const bool& part = cell->getPart();
-			const int& gain = cell->getGain();
-			if(_bList[part][gain] == node){
-				_bList[part].erase(gain);
-			}
-			else{//this node is base node
-				//for debug
-				if(_bList[!part][gain] != node) cout << "error in delete node !!!" << endl;
-
-				_bList[!part].erase(gain);
-			}
-		}
-	}
-	*/	
 }
 
 void Partitioner::insertNode(Node* node)
@@ -244,23 +205,6 @@ void Partitioner::insertNode(Node* node)
 	node->setNext(next);
 	dNode->setNext(node);
 	if(next != NULL) next->setPrev(node);
-
-
-	/*
-	map<int, Node*>::iterator it = _bList[part].find(gain);
-    if(it != _bList[part].end()){
-        Node* A = it->second;
-		Node* B = A->getNext();
-		//A->B => A->node->B
-		node->setPrev(A);
-		node->setNext(B);
-		A->setNext(node);
-		if(B != NULL) B->setPrev(node);
-    }
-    else{
-        _bList[part][gain] = node;
-    }
-	*/
 }
 
 void Partitioner::updateList(Cell* baseCell)
@@ -269,12 +213,14 @@ void Partitioner::updateList(Cell* baseCell)
 	Net* net;
 	Cell* cell;
 	Node* node;
+	vector<int>* cellList;
+	
 	vector<bool> recordMap;
 	recordMap.reserve(_cellNum);
 	recordMap.resize(_cellNum);
 	for(size_t i = 0, n = netList->size(); i < n; ++i){
 		net = _netArray[(*netList)[i]];
-		vector<int>* cellList = net->getCellListPtr();
+		cellList = net->getCellListPtr();
 		for(size_t j = 0, m = cellList->size(); j < m; ++j){
 			cell = _cellArray[(*cellList)[j]];
 			node = cell->getNode();
@@ -287,7 +233,7 @@ void Partitioner::updateList(Cell* baseCell)
 	}
 }
 
-void Partitioner::changeAllGainOnNet(Net* net, bool b)
+void Partitioner::changeAllGainOnNet(Net* net, const bool& b)
 {
 	//cout << "for all cell in net " << net->getName() << endl;
 	vector<int>* cellList = net->getCellListPtr();
@@ -296,23 +242,17 @@ void Partitioner::changeAllGainOnNet(Net* net, bool b)
     for(int j = 0, m = cellList->size(); j < m; ++j){
         cell = _cellArray[(*cellList)[j]];
         if(!cell->getLock()){
-			//node = cell->getNode();
-			//deleteNode(node);
 			if(b) {
 				cell->incGain();
-				//cout << "inc cell " << cell->getName() << endl;
 			}
 			else {
 				cell->decGain();
-				//cout << "dec cell " << cell->getName() << endl;
 			}
-			//insertNode(node);
-			//cell->setChange(true);
         }
     }
 }
 
-void Partitioner::changeOneGainOnNet(Net* net, bool b, bool part)
+void Partitioner::changeOneGainOnNet(Net* net, const bool& b, const bool& part)
 {
 	//cout << "for one cell in net " << net->getName() << " in part " << part << endl;
 	vector<int>* cellList = net->getCellListPtr();
@@ -320,23 +260,15 @@ void Partitioner::changeOneGainOnNet(Net* net, bool b, bool part)
 	Node* node;
     for(int j = 0, m = cellList->size(); j < m; ++j){
         cell = _cellArray[(*cellList)[j]];
-        if(cell->getPart() == part){
+        if(cell->getPart() == part && (!cell->getLock()) ){
 			//cout << "---> find cell " << cell->getName() << endl;
-            if(!cell->getLock()){
-				//node = cell->getNode();
-				//insertNode(node);	
-                if(b) {
-	                cell->incGain();
-		            //cout << "inc cell " << cell->getName() << endl;
-			    }
-				else {
-					cell->decGain();
-					//cout << "dec cell " << cell->getName() << endl;
-				}
-				//deleteNode(node);
-				//cell->setChange(true);
-				break;
-            }
+            if(b) {
+	            cell->incGain();
+			}
+			else {
+				cell->decGain();
+			}
+			break;
         }
     }
 }
@@ -344,21 +276,18 @@ void Partitioner::changeOneGainOnNet(Net* net, bool b, bool part)
 void Partitioner::updateGain(Cell* baseCell)
 {
 	//cout << "consider cell " << baseCell->getName() << endl;
-	bool F = baseCell->getPart();
-	bool T = !F;
+	const bool& F = baseCell->getPart();
+	const bool& T = !F;
 
-	//Node* node = baseCell->getNode();
-	//deleteNode(node);
 	baseCell->move();
-	//insertNode(node);
-
 	baseCell->lock();
 
 	//update gain
 	vector<int>* netList = baseCell->getNetListPtr();
+	Net* net;
     //for each net on base cell
     for (size_t j = 0, m = netList->size(); j < m; ++j) {
-        Net* net = _netArray[(*netList)[j]];
+        net = _netArray[(*netList)[j]];
 		//cout << "consider net " << net->getName() << endl;
 		//before move
 		if(net->getPartCount(T) == 0){
@@ -386,7 +315,6 @@ void Partitioner::updateGain(Cell* baseCell)
 			changeOneGainOnNet(net, 1, F); //1 for inc
         }
     }//done for each net on base cell
-
 }
 
 

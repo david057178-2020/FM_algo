@@ -191,14 +191,8 @@ void Partitioner::deleteNode(Node* node)
 		//pre->setNext(next);
 		next->setPrev(pre);
 	}
-	
+	//if remain only dummy node	
 	else if(pre->getPrev() == NULL){
-		/*
-		//check if this empty entry is max gain
-		if(pre == _maxGainCell){
-			const int& maxGain = _cellArray[node->getId()]->getGain();
-		}
-		*/
 		const int& gain = pre->getId();
 		if(_bList[0].find(gain) != _bList[0].end() && _bList[0][gain] == pre){
 			_bList[0].erase(gain);
@@ -212,8 +206,10 @@ void Partitioner::deleteNode(Node* node)
 			cerr << "old gain: " << pre->getId() << endl;
 			cerr << "new gain: " << _cellArray[node->getId()]->getGain() << endl;
 		}
-			
 	}
+
+	node->setPrev(NULL);
+	node->setNext(NULL);
 }
 
 void Partitioner::insertNode(Node* node)
@@ -255,6 +251,7 @@ void Partitioner::updateList(Cell* baseCell)
 		cellList = net->getCellListPtr();
 		for(size_t j = 0, m = cellList->size(); j < m; ++j){
 			cell = _cellArray[(*cellList)[j]];
+			if(cell->getLock())continue;
 			node = cell->getNode();
 			if(!recordMap[node->getId()]){//if haven't update
 				deleteNode(node);
@@ -263,6 +260,9 @@ void Partitioner::updateList(Cell* baseCell)
 			}
 		}
 	}
+
+	//delete baseCell
+	deleteNode(baseCell->getNode());
 }
 
 void Partitioner::changeAllGainOnNet(Net* net, const bool& b)
@@ -348,13 +348,83 @@ void Partitioner::updateGain(Cell* baseCell)
         }
     }//done for each net on base cell
 }
+
 /*
-Cell* pickBaseCell()
-{
-	Cell* baseCell = _cellArray[_maxGainCell->getNext()->getId()];
-	return baseCell;
+Node* Partitioner::findUnLock(Node* node)
+{	
+	Cell* cell;
+	while(node != NULL){
+		cell = _cellArray[node->getId()];
+		if(!cell->getLock())return node;
+		else node = node->getNext();
+	}
+	return NULL;
 }
 */
+
+Cell* Partitioner::pickBaseCell()
+{
+	Node* maxNode = NULL;
+	map<int, Node*>::reverse_iterator itA = _bList[0].rbegin();
+	map<int, Node*>::reverse_iterator itB = _bList[1].rbegin();
+	bool AtoB = true;
+
+	while(itA != _bList[0].rend() && itB != _bList[1].rend()){
+		if(itA->second->getId() > itB->second->getId()){
+			if(checkBalance(_partSize[0] - 1)){
+				/*
+				maxNode = findUnLock(itA->second->getNext());
+				if(maxNode != NULL) return _cellArray[maxNode->getId()];
+				*/
+				AtoB = true;
+				break;
+			}
+			else ++itA;
+		}
+		else if(itA->second->getId() < itB->second->getId()){
+			if(checkBalance(_partSize[1] - 1)) {
+				/*
+				maxNode = findUnLock(itB->second->getNext());
+				if(maxNode != NULL) return _cellArray[maxNode->getId()];
+				*/
+				AtoB = false;
+				break;
+			}
+			else ++itB;
+		}
+		else{
+			if(_partSize[0] >= _partSize[1]){
+				/*
+				maxNode = findUnLock(itA->second->getNext());
+				if(maxNode != NULL) return _cellArray[maxNode->getId()];
+				else ++itA;
+				*/
+				AtoB = true;
+			}
+			else{
+				/*
+				maxNode = findUnLock(itB->second->getNext());
+				if(maxNode != NULL) return _cellArray[maxNode->getId()];
+				else ++itB;
+				*/
+				AtoB = false;
+			}
+			break;
+		}
+	}
+
+	if(AtoB){
+		--_partSize[0]	;
+		++_partSize[1];
+		return _cellArray[itA->second->getNext()->getId()];
+	}
+	else{
+		++_partSize[0];
+		--_partSize[1];
+		return _cellArray[itB->second->getNext()->getId()];
+	}
+}
+
 void Partitioner::partition()
 {
 	//TODO
@@ -371,8 +441,8 @@ void Partitioner::partition()
 		for(_iterNum = 0; _iterNum <_cellNum; ++_iterNum){
 			//move the node with max gain
 			
-			//Cell* baseCell = pickBaseNode()
-			Cell* baseCell = _cellArray[_iterNum];
+			Cell* baseCell = pickBaseCell();
+			//Cell* baseCell = _cellArray[_iterNum];
 			
 			//for debug, try to move each node
 			updateGain(baseCell);

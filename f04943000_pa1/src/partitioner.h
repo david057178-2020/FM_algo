@@ -41,9 +41,10 @@ public:
 	void setBSize(const int& n) { _partSize[0] = _cellNum - n; _partSize[1] = n; }
 	void setMaxPinNum(const int& n) { _maxPinNum = n; }
 	void setMaxGainNode(Node* node) { _maxGainCell = node; }
-	bool checkBalance(){
-		const float &tmp = (_partSize[0] * 2) / _cellNum;
-		return (1 - tmp <= _bFactor && tmp - 1 <= _bFactor);
+	bool checkBalance(const int& size){
+		const double& UB = ((1 + _bFactor) / 2) * _cellNum;
+		const double& LB = ((1 - _bFactor) / 2) * _cellNum;		
+		return (size >= LB && size <= UB);
 	}
 	void updateGain(Cell* cell);
 	void changeAllGainOnNet(Net* net, const bool& b); //dec(0), inc(1)
@@ -53,8 +54,8 @@ public:
 	void deleteNode(Node* node);
 	void insertNode(Node* node);	
 	void initBList();
-	Node* pickBaseCell();
-	void updateMaxGainPtr();
+	Cell* pickBaseCell();
+	Node* findUnLock();
 
 	// member functions about reporting
     void printSummary() const;

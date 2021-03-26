@@ -57,7 +57,7 @@ addCell	src/net.h	/^    void addCell(const int cellId)  { _cellList.push_back(ce
 addNet	src/cell.h	/^    void addNet(const int netId) { _netList.push_back(netId); }$/;"	f	class:Cell
 changeAllGainOnNet	src/partitioner.cpp	/^void Partitioner::changeAllGainOnNet(Net* net, const bool& b)$/;"	f	class:Partitioner
 changeOneGainOnNet	src/partitioner.cpp	/^void Partitioner::changeOneGainOnNet(Net* net, const bool& b, const bool& part)$/;"	f	class:Partitioner
-checkBalance	src/partitioner.h	/^	bool checkBalance(){$/;"	f	class:Partitioner
+checkBalance	src/partitioner.h	/^	bool checkBalance(const int& size){$/;"	f	class:Partitioner
 clear	src/partitioner.cpp	/^void Partitioner::clear()$/;"	f	class:Partitioner
 decGain	src/cell.h	/^    void decGain()      { --_gain; }$/;"	f	class:Cell
 decPartCount	src/net.h	/^    void decPartCount(int part)     { --_partCount[part]; }$/;"	f	class:Net
@@ -92,6 +92,7 @@ main	src/main.cpp	/^int main(int argc, char** argv)$/;"	f
 move	src/cell.h	/^    void move()         { _part = !_part; }$/;"	f	class:Cell
 parseInput	src/partitioner.cpp	/^void Partitioner::parseInput(fstream& inFile)$/;"	f	class:Partitioner
 partition	src/partitioner.cpp	/^void Partitioner::partition()$/;"	f	class:Partitioner
+pickBaseCell	src/partitioner.cpp	/^Cell* Partitioner::pickBaseCell()$/;"	f	class:Partitioner
 printBList	src/partitioner.cpp	/^void Partitioner::printBList()$/;"	f	class:Partitioner
 printSummary	src/partitioner.cpp	/^void Partitioner::printSummary() const$/;"	f	class:Partitioner
 reportCell	src/partitioner.cpp	/^void Partitioner::reportCell() const$/;"	f	class:Partitioner

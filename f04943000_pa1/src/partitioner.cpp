@@ -73,27 +73,25 @@ void Partitioner::initParti()
 		cell->move();
 	}
 	setBSize(halfNode);
+}
 
-	//set max pin num
-	int maxPin = 0;
-	for(size_t i = 0, n = getCellNum(); i < n; ++i){
-		cell = _cellArray[i];
-		if(cell->getPinNum() > maxPin) maxPin = cell->getPinNum();
-	}
-	setMaxPinNum(maxPin); 
-	//cout << "max pin num = " << maxPin << endl;
-
+void Partitioner::setPartCountAndCutSize()
+{
 	//set part count and cut size
 	int cutSize = 0;
 	Net* net;
+	Cell* cell;
 	vector<int>* cellList;
 	for(size_t i = 0, n = getNetNum(); i < n; ++i){
 		net = _netArray[i];
+		//reset partCount
+		net->setPartCount(0, 0);
+		net->setPartCount(1, 0);
+
 		cellList = net->getCellListPtr();
 		for(size_t j = 0, m = cellList->size(); j < m; ++j){
 			cell = _cellArray[(*cellList)[j]];
 			const bool& part = cell->getPart();
-			//set part count
 			net->incPartCount(part);
 		}
 		//record cut size
@@ -103,28 +101,33 @@ void Partitioner::initParti()
 	setCutSize(cutSize);
 }
 
-/*
-void Partitioner::initBList()
+void Partitioner::setMaxPin()
 {
-	for(int i = -_maxPinNum; i <= _maxPinNum; ++i){
-		_bList[0][i] = new Node(-1);
-		_bList[1][i] = new Node(-1);
+	//set max pin num
+	int maxPin = 0;
+	Cell* cell;
+	for(size_t i = 0, n = getCellNum(); i < n; ++i){
+		cell = _cellArray[i];
+		if(cell->getPinNum() > maxPin) maxPin = cell->getPinNum();
 	}
+	setMaxPinNum(maxPin); 
+	//cout << "max pin num = " << maxPin << endl;
 }
-*/
 
 void Partitioner::setInitG()
 {
-	const int n = getCellNum();
-	int maxG = 0;
-	int maxP = 0;
+	const int& n = getCellNum();
+	//int maxG = 0;
+	//int maxP = 0;
 	//Cell* maxGainCell;
 	Cell* cell;
 	Node* node;
 	vector<int>* netList;
 	Net* net;
-	for(size_t i = 0; i < n; ++i){
+	for(size_t i = 0; i < n; ++i){//for each cell
 		cell = _cellArray[i];
+		cell->unlock();
+		cell->setGain(0);
 		const bool& part = cell->getPart();
         netList = cell->getNetListPtr();
 		//compute gain of each cell
@@ -137,18 +140,20 @@ void Partitioner::setInitG()
 				cell->decGain();
 			}
 		}
-		
+		//cout << "(cell, gain) = " << cell->getName() << ", " << cell->gain()
+		/*
 		const int& gain = cell->getGain();
 		//record max gain cell
 		if(gain > maxG) {
 			maxP = part;
 			maxG = gain;
 		}
+		*/
 		//record bList
 		node = cell->getNode();
 		insertNode(node);
 	}
-	setMaxGainNode(_bList[maxP][maxG]);
+	//setMaxGainNode(_bList[maxP][maxG]);
 
 	//for debug
 	printBList();
@@ -349,19 +354,6 @@ void Partitioner::updateGain(Cell* baseCell)
     }//done for each net on base cell
 }
 
-/*
-Node* Partitioner::findUnLock(Node* node)
-{	
-	Cell* cell;
-	while(node != NULL){
-		cell = _cellArray[node->getId()];
-		if(!cell->getLock())return node;
-		else node = node->getNext();
-	}
-	return NULL;
-}
-*/
-
 Cell* Partitioner::pickBaseCell()
 {
 	Node* maxNode = NULL;
@@ -414,7 +406,7 @@ Cell* Partitioner::pickBaseCell()
 	}
 
 	if(AtoB){
-		--_partSize[0]	;
+		--_partSize[0];
 		++_partSize[1];
 		return _cellArray[itA->second->getNext()->getId()];
 	}
@@ -430,42 +422,65 @@ void Partitioner::partition()
 	//TODO
 	//initial partition
 	initParti();
-	//initial bucket list
-	//initBList();
+	setMaxPin();
 	//set initial gain
-	setInitG();
+	//setInitG();
+
+	_moveStack.reserve(_cellNum);
+	_moveStack.resize(_cellNum);
 
 	//iteratively until no improve
 	do{
+		setPartCountAndCutSize();
+		setInitG();
+		_accGain = 0;
+		_maxAccGain = 0;
+		_bestMoveNum = -1;
 		//for loop until all lock
 		for(_iterNum = 0; _iterNum <_cellNum; ++_iterNum){
 			//move the node with max gain
-			
 			Cell* baseCell = pickBaseCell();
-			//Cell* baseCell = _cellArray[_iterNum];
-			
-			//for debug, try to move each node
+
+			const int& gain = baseCell->getGain(); 
+			cout << "move cell " << baseCell->getName() << ", gain = " << gain << endl;
+			_moveStack[_iterNum] = baseCell->getNode()->getId();
+			_accGain += gain;
+			if(_accGain > _maxAccGain){
+				_bestMoveNum = _iterNum;	
+				_maxAccGain = _accGain;
+
+				_sizeDiff = _partSize[0] - _partSize[1];
+				if(_sizeDiff < 0) _sizeDiff = -_sizeDiff;
+			}
+			else if(_accGain == _maxAccGain){
+				int diff = _partSize[0]	- _partSize[1];
+				if(diff < 0) diff = -diff;
+				// if more balanced	 
+				if(diff < _sizeDiff){
+					_bestMoveNum = _iterNum;	
+					_maxAccGain = _accGain;
+					_sizeDiff = diff;
+				}
+			}
 			updateGain(baseCell);
 			updateList(baseCell);
-			//updateMaxGainPtr();
-			
-			cout << "after moving cell " << baseCell->getName() << endl;
-			printBList();
-			/*		
-			for(int i = 0; i < _cellNum; ++i){
-				Cell* cell = _cellArray[i];
-				cout << "(cell, gain) = (" << cell->getName() << ", " << cell->getGain() << ")" << endl; 
-			}
-			*/
-			//update gain, size, lock
-		
 		}
-		//find max subseq
-
-			
+		//
+		cout << "maxAccGain = " << _maxAccGain << endl;
+		cout << "happen at rount " << _bestMoveNum << endl;
+		Cell* cell;
+		if(_maxAccGain > 0){
+			for(size_t i = _cellNum - 1; i > _bestMoveNum; --i){
+				cell = _cellArray[_moveStack[i]];
+				cell->move();
+				++_partSize[cell->getPart()];
+				--_partSize[!cell->getPart()];
+			}
+			continue;
+		}
+		else break;
 		
 	} while(_maxAccGain > 0);
-
 }
 
 void Partitioner::printSummary() const

@@ -36,6 +36,8 @@ public:
 
     //my function
 	void initParti();
+	void setMaxPin();
+	void setPartCountAndCutSize();
 	void setInitG();
 	void setCutSize(const int& n) { _cutSize = n; }  
 	void setBSize(const int& n) { _partSize[0] = _cellNum - n; _partSize[1] = n; }
@@ -55,7 +57,6 @@ public:
 	void insertNode(Node* node);	
 	void initBList();
 	Cell* pickBaseCell();
-	Node* findUnLock();
 
 	// member functions about reporting
     void printSummary() const;
@@ -85,7 +86,10 @@ private:
     int                 _unlockNum[2];  // number of unlocked cells
     vector<int>         _moveStack;     // history of cell movement
 
-    // Clean up partitioner
+	//my member
+	int                 _sizeDiff;      //for decideing tie _maxAccGain
+    
+	// Clean up partitioner
     void clear();
 };
 

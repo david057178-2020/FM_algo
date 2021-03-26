@@ -85,7 +85,6 @@ getPrev	src/cell.h	/^    Node* getPrev() const   { return _prev; }$/;"	f	class:N
 incGain	src/cell.h	/^    void incGain()      { ++_gain; }$/;"	f	class:Cell
 incPartCount	src/net.h	/^    void incPartCount(int part)     { ++_partCount[part]; }$/;"	f	class:Net
 incPinNum	src/cell.h	/^    void incPinNum()    { ++_pinNum; }$/;"	f	class:Cell
-initBList	src/partitioner.cpp	/^void Partitioner::initBList()$/;"	f	class:Partitioner
 initParti	src/partitioner.cpp	/^void Partitioner::initParti()$/;"	f	class:Partitioner
 insertNode	src/partitioner.cpp	/^void Partitioner::insertNode(Node* node)$/;"	f	class:Partitioner
 lock	src/cell.h	/^    void lock()         { _lock = true; }$/;"	f	class:Cell

@@ -103,7 +103,7 @@ void Partitioner::initParti()
 	setCutSize(cutSize);
 }
 
-
+/*
 void Partitioner::initBList()
 {
 	for(int i = -_maxPinNum; i <= _maxPinNum; ++i){
@@ -111,7 +111,7 @@ void Partitioner::initBList()
 		_bList[1][i] = new Node(-1);
 	}
 }
-
+*/
 
 void Partitioner::setInitG()
 {
@@ -160,7 +160,7 @@ void Partitioner::printBList()
 	cout << endl << "A list:" << endl;
 	for(map<int, Node*>::iterator it = _bList[0].begin(); it != _bList[0].end(); ++it){
 		node = it->second;
-		if(node->getNext() == NULL) continue;
+		//if(node->getNext() == NULL) continue;
 		cout << "gain = " << it->first << endl;
 		while(node->getNext() != NULL){
 			node = node->getNext();
@@ -171,7 +171,7 @@ void Partitioner::printBList()
 	cout << endl << "B list:" << endl;
     for(map<int, Node*>::iterator it = _bList[1].begin(); it != _bList[1].end(); ++it){
         node = it->second;
-		if(node->getNext() == NULL) continue;
+		//if(node->getNext() == NULL) continue;
         cout << "gain = " << it->first << endl;
         while(node->getNext() != NULL){
             node = node->getNext();
@@ -191,14 +191,29 @@ void Partitioner::deleteNode(Node* node)
 		//pre->setNext(next);
 		next->setPrev(pre);
 	}
-	/*
-	else{
+	
+	else if(pre->getPrev() == NULL){
+		/*
 		//check if this empty entry is max gain
 		if(pre == _maxGainCell){
 			const int& maxGain = _cellArray[node->getId()]->getGain();
-		}	
+		}
+		*/
+		const int& gain = pre->getId();
+		if(_bList[0].find(gain) != _bList[0].end() && _bList[0][gain] == pre){
+			_bList[0].erase(gain);
+		}
+		else if(_bList[1].find(gain) != _bList[1].end() && _bList[1][gain] == pre){
+			_bList[1].erase(gain);
+		}
+		else{
+			cerr << "error in delete" << endl;
+			cerr << "cell: " << _cellArray[node->getId()]->getName() << endl;
+			cerr << "old gain: " << pre->getId() << endl;
+			cerr << "new gain: " << _cellArray[node->getId()]->getGain() << endl;
+		}
+			
 	}
-	*/
 }
 
 void Partitioner::insertNode(Node* node)
@@ -207,13 +222,13 @@ void Partitioner::insertNode(Node* node)
 	const int& gain = cell->getGain();
 	const int& part = cell->getPart();
 
-	/*
+	
 	//if open an empty entry, insert a dummy node first
 	map<int, Node*>::iterator it = _bList[part].find(gain);
 	if(it == _bList[part].end()){
-		_bList[part][gain] = new Node(-1);
+		_bList[part][gain] = new Node(gain);
 	}
-*/
+
 	
 	Node* dNode = _bList[part][gain];
 	Node* next = dNode->getNext();
@@ -333,7 +348,6 @@ void Partitioner::updateGain(Cell* baseCell)
         }
     }//done for each net on base cell
 }
-
 /*
 Cell* pickBaseCell()
 {
@@ -341,14 +355,13 @@ Cell* pickBaseCell()
 	return baseCell;
 }
 */
-
 void Partitioner::partition()
 {
 	//TODO
 	//initial partition
 	initParti();
 	//initial bucket list
-	initBList();
+	//initBList();
 	//set initial gain
 	setInitG();
 
@@ -364,6 +377,7 @@ void Partitioner::partition()
 			//for debug, try to move each node
 			updateGain(baseCell);
 			updateList(baseCell);
+			//updateMaxGainPtr();
 			
 			cout << "after moving cell " << baseCell->getName() << endl;
 			printBList();

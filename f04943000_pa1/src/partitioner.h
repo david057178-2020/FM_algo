@@ -54,6 +54,7 @@ public:
 	void insertNode(Node* node);	
 	void initBList();
 	Node* pickBaseCell();
+	void updateMaxGainPtr();
 
 	// member functions about reporting
     void printSummary() const;

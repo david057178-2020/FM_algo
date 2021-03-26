@@ -102,7 +102,7 @@ setCutSize	src/partitioner.h	/^	void setCutSize(const int& n) { _cutSize = n; } 
 setGain	src/cell.h	/^    void setGain(const int gain)    { _gain = gain; }$/;"	f	class:Cell
 setId	src/cell.h	/^    void setId(const int& id) { _id = id; }$/;"	f	class:Node
 setInitG	src/partitioner.cpp	/^void Partitioner::setInitG()$/;"	f	class:Partitioner
-setMaxGainCell	src/partitioner.h	/^	void setMaxGainCell(Cell* cell) { _maxGainCell = cell->getNode(); }$/;"	f	class:Partitioner
+setMaxGainNode	src/partitioner.h	/^	void setMaxGainNode(Node* node) { _maxGainCell = node; }$/;"	f	class:Partitioner
 setMaxPinNum	src/partitioner.h	/^	void setMaxPinNum(const int& n) { _maxPinNum = n; }$/;"	f	class:Partitioner
 setName	src/cell.h	/^    void setName(const string name) { _name = name; }$/;"	f	class:Cell
 setName	src/net.h	/^    void setName(const string name) { _name = name; }$/;"	f	class:Net

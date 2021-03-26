@@ -40,7 +40,7 @@ public:
 	void setCutSize(const int& n) { _cutSize = n; }  
 	void setBSize(const int& n) { _partSize[0] = _cellNum - n; _partSize[1] = n; }
 	void setMaxPinNum(const int& n) { _maxPinNum = n; }
-	void setMaxGainCell(Cell* cell) { _maxGainCell = cell->getNode(); }
+	void setMaxGainNode(Node* node) { _maxGainCell = node; }
 	bool checkBalance(){
 		const float &tmp = (_partSize[0] * 2) / _cellNum;
 		return (1 - tmp <= _bFactor && tmp - 1 <= _bFactor);
@@ -48,12 +48,12 @@ public:
 	void updateGain(Cell* cell);
 	void changeAllGainOnNet(Net* net, const bool& b); //dec(0), inc(1)
 	void changeOneGainOnNet(Net* net, const bool& b, const bool& part); //A(0), B(1)
-	//void moveInBList(int from, int to);
 	void printBList();
 	void updateList(Cell* cell);
 	void deleteNode(Node* node);
 	void insertNode(Node* node);	
 	void initBList();
+	Node* pickBaseCell();
 
 	// member functions about reporting
     void printSummary() const;

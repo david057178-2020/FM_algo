@@ -103,20 +103,22 @@ void Partitioner::initParti()
 	setCutSize(cutSize);
 }
 
+
 void Partitioner::initBList()
 {
 	for(int i = -_maxPinNum; i <= _maxPinNum; ++i){
 		_bList[0][i] = new Node(-1);
 		_bList[1][i] = new Node(-1);
 	}
-
 }
+
 
 void Partitioner::setInitG()
 {
 	const int n = getCellNum();
 	int maxG = 0;
-	Cell* maxGainCell;
+	int maxP = 0;
+	//Cell* maxGainCell;
 	Cell* cell;
 	Node* node;
 	vector<int>* netList;
@@ -139,58 +141,64 @@ void Partitioner::setInitG()
 		const int& gain = cell->getGain();
 		//record max gain cell
 		if(gain > maxG) {
+			maxP = part;
 			maxG = gain;
-			maxGainCell = cell;
 		}
-
 		//record bList
 		node = cell->getNode();
 		insertNode(node);
-		//cell->setChange(false);
 	}
-	setMaxGainCell(maxGainCell);
+	setMaxGainNode(_bList[maxP][maxG]);
+
+	//for debug
+	printBList();
 }
 
 void Partitioner::printBList()
 {
 	Node* node;
-	cout << endl << "A list is:" << endl;
+	cout << endl << "A list:" << endl;
 	for(map<int, Node*>::iterator it = _bList[0].begin(); it != _bList[0].end(); ++it){
 		node = it->second;
 		if(node->getNext() == NULL) continue;
 		cout << "gain = " << it->first << endl;
-		cout << "	---> dummy node" << endl;
-		//cout << "---> node " << _cellArray[node->getId()]->getName() << endl;
 		while(node->getNext() != NULL){
 			node = node->getNext();
             cout << "	---> node " << _cellArray[node->getId()]->getName() << endl;
         }
 	}
 
-	cout << endl << "B list is:" << endl;
+	cout << endl << "B list:" << endl;
     for(map<int, Node*>::iterator it = _bList[1].begin(); it != _bList[1].end(); ++it){
         node = it->second;
 		if(node->getNext() == NULL) continue;
         cout << "gain = " << it->first << endl;
-		cout << "	---> dummy node" << endl;
-        //cout << "cell =  " << _cellArray[node->getId()]->getName() << endl;
         while(node->getNext() != NULL){
             node = node->getNext();
             cout << "	---> node " << _cellArray[node->getId()]->getName() << endl;
         }
     }
-
+	cout << endl;
 }
 
 void Partitioner::deleteNode(Node* node)
 {
 	Node* pre = node->getPrev();
 	Node* next = node->getNext();
-	
-	pre->setNext(next);
+
+	pre->setNext(next);	
 	if(next != NULL){
+		//pre->setNext(next);
 		next->setPrev(pre);
 	}
+	/*
+	else{
+		//check if this empty entry is max gain
+		if(pre == _maxGainCell){
+			const int& maxGain = _cellArray[node->getId()]->getGain();
+		}	
+	}
+	*/
 }
 
 void Partitioner::insertNode(Node* node)
@@ -199,12 +207,21 @@ void Partitioner::insertNode(Node* node)
 	const int& gain = cell->getGain();
 	const int& part = cell->getPart();
 
+	/*
+	//if open an empty entry, insert a dummy node first
+	map<int, Node*>::iterator it = _bList[part].find(gain);
+	if(it == _bList[part].end()){
+		_bList[part][gain] = new Node(-1);
+	}
+*/
+	
 	Node* dNode = _bList[part][gain];
 	Node* next = dNode->getNext();
 	node->setPrev(dNode);
 	node->setNext(next);
 	dNode->setNext(node);
 	if(next != NULL) next->setPrev(node);
+	
 }
 
 void Partitioner::updateList(Cell* baseCell)
@@ -224,7 +241,7 @@ void Partitioner::updateList(Cell* baseCell)
 		for(size_t j = 0, m = cellList->size(); j < m; ++j){
 			cell = _cellArray[(*cellList)[j]];
 			node = cell->getNode();
-			if(!recordMap[node->getId()]){
+			if(!recordMap[node->getId()]){//if haven't update
 				deleteNode(node);
 				insertNode(node);
 				recordMap[node->getId()] = true;
@@ -317,6 +334,13 @@ void Partitioner::updateGain(Cell* baseCell)
     }//done for each net on base cell
 }
 
+/*
+Cell* pickBaseCell()
+{
+	Cell* baseCell = _cellArray[_maxGainCell->getNext()->getId()];
+	return baseCell;
+}
+*/
 
 void Partitioner::partition()
 {
@@ -333,11 +357,15 @@ void Partitioner::partition()
 		//for loop until all lock
 		for(_iterNum = 0; _iterNum <_cellNum; ++_iterNum){
 			//move the node with max gain
-			//for debug, try to move each node
-			updateGain(_cellArray[_iterNum]);
-			updateList(_cellArray[_iterNum]);
 			
-			cout << "after moving cell " << _cellArray[_iterNum]->getName() << endl;
+			//Cell* baseCell = pickBaseNode()
+			Cell* baseCell = _cellArray[_iterNum];
+			
+			//for debug, try to move each node
+			updateGain(baseCell);
+			updateList(baseCell);
+			
+			cout << "after moving cell " << baseCell->getName() << endl;
 			printBList();
 			/*		
 			for(int i = 0; i < _cellNum; ++i){

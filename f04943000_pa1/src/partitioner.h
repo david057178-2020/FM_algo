@@ -39,20 +39,18 @@ public:
 	void setBasic();
 	void setPartCountAndCutSize();
 	void setInitG();
-	void setMaxGainNode(Node* node) { _maxGainCell = node; }
 	bool checkBalance(const int& size){
 		const double& UB = ((1 + _bFactor) / 2) * _cellNum;
 		const double& LB = ((1 - _bFactor) / 2) * _cellNum;		
 		return (size >= LB && size <= UB);
 	}
-	void updateGain(Cell* cell);
+	void updateGain(Cell* const cell);
 	void changeAllGainOnNet(Net* const net, const bool& inc); 
 	void changeOneGainOnNet(Net* const net, const bool& inc, const bool& part);
 	void printBList();
-	void updateList(Cell* cell);
-	void deleteNode(Node* node);
+	void updateList(Cell* const cell);
+	void deleteNode(Node* const node);
 	void insertNode(Node* const node);	
-	void initBList();
 	Cell* pickBaseCell();
 
 	// member functions about reporting
@@ -85,7 +83,7 @@ private:
 
 	//my member
 	int                 _sizeDiff;      //for decideing tie _maxAccGain
-    
+    int                 _timeOut;       // avoid not stop 
 	// Clean up partitioner
     void clear();
 };

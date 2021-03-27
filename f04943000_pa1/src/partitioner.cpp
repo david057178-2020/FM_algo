@@ -113,6 +113,9 @@ void Partitioner::setBasic()
 	//init moveStack
 	_moveStack.reserve(_cellNum);
 	_moveStack.resize(_cellNum);
+
+	//set timeOut
+	_timeOut = 1000;
 }
 
 void Partitioner::setInitG()
@@ -172,19 +175,18 @@ void Partitioner::printBList()
 	cout << endl;
 }
 
-void Partitioner::deleteNode(Node* node)
+void Partitioner::deleteNode(Node* const node)
 {
-	Node* pre = node->getPrev();
-	Node* next = node->getNext();
+	Node* const pre = node->getPrev();
+	Node* const next = node->getNext();
 
 	pre->setNext(next);	
 	if(next != NULL){
-		//pre->setNext(next);
 		next->setPrev(pre);
 	}
-	//if remain only dummy node	
+	//if pre is dummy node, it means this entry remains only dummy node	=> erase the entry
 	else if(pre->getPrev() == NULL){
-		const int& gain = pre->getId();
+		const int gain = pre->getId();
 		if(_bList[0].find(gain) != _bList[0].end() && _bList[0][gain] == pre){
 			_bList[0].erase(gain);
 		}
@@ -226,10 +228,9 @@ void Partitioner::insertNode(Node* const node)
 	
 }
 
-void Partitioner::updateList(Cell* baseCell)
+void Partitioner::updateList(Cell* const baseCell)
 {
 	vector<int>* netList = baseCell->getNetListPtr();
-	Net* net;
 	Cell* cell;
 	Node* node;
 	vector<int>* cellList;
@@ -237,9 +238,11 @@ void Partitioner::updateList(Cell* baseCell)
 	vector<bool> recordMap;
 	recordMap.reserve(_cellNum);
 	recordMap.resize(_cellNum);
+
+	//for each net connect to baseCell
 	for(size_t i = 0, n = netList->size(); i < n; ++i){
-		net = _netArray[(*netList)[i]];
-		cellList = net->getCellListPtr();
+		cellList = _netArray[(*netList)[i]]->getCellListPtr();
+		//for each cell connect to this net
 		for(size_t j = 0, m = cellList->size(); j < m; ++j){
 			cell = _cellArray[(*cellList)[j]];
 			if(cell->getLock())continue;
@@ -285,7 +288,7 @@ void Partitioner::changeOneGainOnNet(Net* const net, const bool& inc, const bool
     }
 }
 
-void Partitioner::updateGain(Cell* baseCell)
+void Partitioner::updateGain(Cell* const baseCell)
 {
 	const bool F = baseCell->getPart();
 	const bool T = !F;
@@ -387,7 +390,7 @@ void Partitioner::partition()
 	setBasic();
 
 	//iteratively until no improve
-	do{
+	while(_timeOut > 0){
 		setPartCountAndCutSize();
 		setInitG();
 		_accGain = 0;
@@ -430,19 +433,20 @@ void Partitioner::partition()
 
 		cout << "maxAccGain = " << _maxAccGain << endl;
 		cout << "happen at rount " << _bestMoveNum << endl;
-		Cell* cell;
 		if(_maxAccGain > 0){
+			Cell* cell;
 			for(size_t i = _cellNum - 1; i > _bestMoveNum; --i){
 				cell = _cellArray[_moveStack[i]];
 				cell->move();
 				++_partSize[cell->getPart()];
 				--_partSize[!cell->getPart()];
 			}
-			continue;
+			--_timeOut;
 		}
-		else break;
-		
-	} while(_maxAccGain > 0);
+		else return;
+	}//end while
+
+	cout << "time out !!" << endl;
 }
 
 void Partitioner::printSummary() const

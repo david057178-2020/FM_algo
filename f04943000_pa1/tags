@@ -35,9 +35,7 @@ _id	src/cell.h	/^    int         _id;    \/\/ id of the node (indicating the cel
 _iterNum	src/partitioner.h	/^    int                 _iterNum;       \/\/ number of iterations$/;"	m	class:Partitioner
 _lock	src/cell.h	/^    bool            _lock;      \/\/ whether the cell is locked$/;"	m	class:Cell
 _maxAccGain	src/partitioner.h	/^    int                 _maxAccGain;    \/\/ maximum accumulative gain$/;"	m	class:Partitioner
-_maxGainCell	src/partitioner.h	/^    Node*               _maxGainCell;   \/\/ pointer to max gain cell$/;"	m	class:Partitioner
 _maxPinNum	src/partitioner.h	/^    int                 _maxPinNum;     \/\/ Pmax for building bucket list$/;"	m	class:Partitioner
-_moveNum	src/partitioner.h	/^    int                 _moveNum;       \/\/ number of cell movements$/;"	m	class:Partitioner
 _moveStack	src/partitioner.h	/^    vector<int>         _moveStack;     \/\/ history of cell movement$/;"	m	class:Partitioner
 _name	src/cell.h	/^    string          _name;      \/\/ name of the cell$/;"	m	class:Cell
 _name	src/net.h	/^    string          _name;          \/\/ Name of the net$/;"	m	class:Net
@@ -54,22 +52,20 @@ _pinNum	src/cell.h	/^    int             _pinNum;    \/\/ number of pins the cel
 _prev	src/cell.h	/^    Node*       _prev;  \/\/ pointer to the previous node$/;"	m	class:Node
 _sizeDiff	src/partitioner.h	/^	int                 _sizeDiff;      \/\/for decideing tie _maxAccGain$/;"	m	class:Partitioner
 _timeOut	src/partitioner.h	/^    int                 _timeOut;       \/\/ avoid not stop $/;"	m	class:Partitioner
-_unlockNum	src/partitioner.h	/^    int                 _unlockNum[2];  \/\/ number of unlocked cells$/;"	m	class:Partitioner
-addCell	src/net.h	/^    void addCell(const int cellId)  { _cellList.push_back(cellId); }$/;"	f	class:Net
+addCell	src/net.h	/^    void addCell(const int& cellId)  { _cellList.push_back(cellId); }$/;"	f	class:Net
 addNet	src/cell.h	/^    void addNet(const int netId) { _netList.push_back(netId); }$/;"	f	class:Cell
 changeAllGainOnNet	src/partitioner.cpp	/^void Partitioner::changeAllGainOnNet(Net* const net, const bool& inc)$/;"	f	class:Partitioner
 changeOneGainOnNet	src/partitioner.cpp	/^void Partitioner::changeOneGainOnNet(Net* const net, const bool& inc, const bool& part)$/;"	f	class:Partitioner
-checkBalance	src/partitioner.h	/^	bool checkBalance(const int& size){$/;"	f	class:Partitioner
+checkBalance	src/partitioner.h	/^	bool checkBalance(const int& size) const{$/;"	f	class:Partitioner
 clear	src/partitioner.cpp	/^void Partitioner::clear()$/;"	f	class:Partitioner
 decGain	src/cell.h	/^    void decGain()      { --_gain; }$/;"	f	class:Cell
-decPartCount	src/net.h	/^    void decPartCount(int part)     { --_partCount[part]; }$/;"	f	class:Net
+decPartCount	src/net.h	/^    void decPartCount(const int& part)     { --_partCount[part]; }$/;"	f	class:Net
 decPinNum	src/cell.h	/^    void decPinNum()    { --_pinNum; }$/;"	f	class:Cell
 deleteNode	src/partitioner.cpp	/^void Partitioner::deleteNode(Node* const node)$/;"	f	class:Partitioner
 getBFactor	src/partitioner.h	/^    double getBFactor() const       { return _bFactor; }$/;"	f	class:Partitioner
 getCellListPtr	src/net.h	/^    vector<int>* getCellListPtr() { return &_cellList; }$/;"	f	class:Net
 getCellNum	src/partitioner.h	/^    int getCellNum() const          { return _cellNum; }$/;"	f	class:Partitioner
 getCutSize	src/partitioner.h	/^    int getCutSize() const          { return _cutSize; }$/;"	f	class:Partitioner
-getFirstNet	src/cell.h	/^    int getFirstNet() const { return _netList[0]; }$/;"	f	class:Cell
 getGain	src/cell.h	/^    int getGain() const     { return _gain; }$/;"	f	class:Cell
 getId	src/cell.h	/^    int getId() const       { return _id; }$/;"	f	class:Node
 getLock	src/cell.h	/^    bool getLock() const    { return _lock; }$/;"	f	class:Cell
@@ -80,12 +76,12 @@ getNetNum	src/partitioner.h	/^    int getNetNum() const           { return _netN
 getNext	src/cell.h	/^    Node* getNext() const   { return _next; }$/;"	f	class:Node
 getNode	src/cell.h	/^    Node* getNode() const   { return _node; }$/;"	f	class:Cell
 getPart	src/cell.h	/^    bool getPart() const    { return _part; }$/;"	f	class:Cell
-getPartCount	src/net.h	/^    int getPartCount(int part) const { return _partCount[part]; }$/;"	f	class:Net
-getPartSize	src/partitioner.h	/^    int getPartSize(int part) const { return _partSize[part]; }$/;"	f	class:Partitioner
+getPartCount	src/net.h	/^    int getPartCount(const int& part) const { return _partCount[part]; }$/;"	f	class:Net
+getPartSize	src/partitioner.h	/^    int getPartSize(const int& part) const { return _partSize[part]; }$/;"	f	class:Partitioner
 getPinNum	src/cell.h	/^    int getPinNum() const   { return _pinNum; }$/;"	f	class:Cell
 getPrev	src/cell.h	/^    Node* getPrev() const   { return _prev; }$/;"	f	class:Node
 incGain	src/cell.h	/^    void incGain()      { ++_gain; }$/;"	f	class:Cell
-incPartCount	src/net.h	/^    void incPartCount(int part)     { ++_partCount[part]; }$/;"	f	class:Net
+incPartCount	src/net.h	/^    void incPartCount(const int& part)     { ++_partCount[part]; }$/;"	f	class:Net
 incPinNum	src/cell.h	/^    void incPinNum()    { ++_pinNum; }$/;"	f	class:Cell
 initParti	src/partitioner.cpp	/^void Partitioner::initParti()$/;"	f	class:Partitioner
 insertNode	src/partitioner.cpp	/^void Partitioner::insertNode(Node* const node)$/;"	f	class:Partitioner
@@ -100,17 +96,17 @@ printSummary	src/partitioner.cpp	/^void Partitioner::printSummary() const$/;"	f	
 reportCell	src/partitioner.cpp	/^void Partitioner::reportCell() const$/;"	f	class:Partitioner
 reportNet	src/partitioner.cpp	/^void Partitioner::reportNet() const$/;"	f	class:Partitioner
 setBasic	src/partitioner.cpp	/^void Partitioner::setBasic()$/;"	f	class:Partitioner
-setGain	src/cell.h	/^    void setGain(const int gain)    { _gain = gain; }$/;"	f	class:Cell
+setGain	src/cell.h	/^    void setGain(const int& gain)    { _gain = gain; }$/;"	f	class:Cell
 setId	src/cell.h	/^    void setId(const int& id) { _id = id; }$/;"	f	class:Node
 setInitG	src/partitioner.cpp	/^void Partitioner::setInitG()$/;"	f	class:Partitioner
-setName	src/cell.h	/^    void setName(const string name) { _name = name; }$/;"	f	class:Cell
-setName	src/net.h	/^    void setName(const string name) { _name = name; }$/;"	f	class:Net
-setNext	src/cell.h	/^    void setNext(Node* next)  { _next = next; }$/;"	f	class:Node
-setNode	src/cell.h	/^    void setNode(Node* node)        { _node = node; }$/;"	f	class:Cell
-setPart	src/cell.h	/^    void setPart(const bool part)   { _part = part; }$/;"	f	class:Cell
-setPartCount	src/net.h	/^    void setPartCount(int part, const int count) { _partCount[part] = count; }$/;"	f	class:Net
+setName	src/cell.h	/^    void setName(const string& name) { _name = name; }$/;"	f	class:Cell
+setName	src/net.h	/^    void setName(const string& name) { _name = name; }$/;"	f	class:Net
+setNext	src/cell.h	/^    void setNext(Node* const next)  { _next = next; }$/;"	f	class:Node
+setNode	src/cell.h	/^    void setNode(Node* const node)        { _node = node; }$/;"	f	class:Cell
+setPart	src/cell.h	/^    void setPart(const bool& part)   { _part = part; }$/;"	f	class:Cell
+setPartCount	src/net.h	/^    void setPartCount(const int& part, const int& count) { _partCount[part] = count; }$/;"	f	class:Net
 setPartCountAndCutSize	src/partitioner.cpp	/^void Partitioner::setPartCountAndCutSize()$/;"	f	class:Partitioner
-setPrev	src/cell.h	/^    void setPrev(Node* prev)  { _prev = prev; }$/;"	f	class:Node
+setPrev	src/cell.h	/^    void setPrev(Node* const prev)  { _prev = prev; }$/;"	f	class:Node
 unlock	src/cell.h	/^    void unlock()       { _lock = false; }$/;"	f	class:Cell
 updateGain	src/partitioner.cpp	/^void Partitioner::updateGain(Cell* const baseCell)$/;"	f	class:Partitioner
 updateList	src/partitioner.cpp	/^void Partitioner::updateList(Cell* const baseCell)$/;"	f	class:Partitioner

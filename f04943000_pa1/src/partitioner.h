@@ -28,7 +28,7 @@ public:
     int getNetNum() const           { return _netNum; }
     int getCellNum() const          { return _cellNum; }
     double getBFactor() const       { return _bFactor; }
-    int getPartSize(int part) const { return _partSize[part]; }
+    int getPartSize(const int& part) const { return _partSize[part]; }
 
     // modify method
     void parseInput(fstream& inFile);
@@ -39,9 +39,9 @@ public:
 	void setBasic();
 	void setPartCountAndCutSize();
 	void setInitG();
-	bool checkBalance(const int& size){
-		const double& UB = ((1 + _bFactor) / 2) * _cellNum;
-		const double& LB = ((1 - _bFactor) / 2) * _cellNum;		
+	bool checkBalance(const int& size) const{
+		const double UB = ((1 + _bFactor) / 2) * _cellNum;
+		const double LB = ((1 - _bFactor) / 2) * _cellNum;		
 		return (size >= LB && size <= UB);
 	}
 	void updateGain(Cell* const cell);
@@ -66,7 +66,7 @@ private:
     int                 _cellNum;       // number of cells
     int                 _maxPinNum;     // Pmax for building bucket list
     double              _bFactor;       // the balance factor to be met
-    Node*               _maxGainCell;   // pointer to max gain cell
+    //Node*               _maxGainCell;   // pointer to max gain cell
     vector<Net*>        _netArray;      // net array of the circuit
     vector<Cell*>       _cellArray;     // cell array of the circuit
     map<int, Node*>     _bList[2];      // bucket list of partition A(0) and B(1)
@@ -75,10 +75,10 @@ private:
 
     int                 _accGain;       // accumulative gain
     int                 _maxAccGain;    // maximum accumulative gain
-    int                 _moveNum;       // number of cell movements
+    //int                 _moveNum;       // number of cell movements
     int                 _iterNum;       // number of iterations
     int                 _bestMoveNum;   // store best number of movements
-    int                 _unlockNum[2];  // number of unlocked cells
+    //int                 _unlockNum[2];  // number of unlocked cells
     vector<int>         _moveStack;     // history of cell movement
 
 	//my member

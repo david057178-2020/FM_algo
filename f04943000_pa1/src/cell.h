@@ -21,8 +21,8 @@ public:
 
     // Set functions
     void setId(const int& id) { _id = id; }
-    void setPrev(Node* prev)  { _prev = prev; }
-    void setNext(Node* next)  { _next = next; }
+    void setPrev(Node* const prev)  { _prev = prev; }
+    void setNext(Node* const next)  { _next = next; }
 
 private:
     int         _id;    // id of the node (indicating the cell)
@@ -47,19 +47,17 @@ public:
     bool getLock() const    { return _lock; }
     Node* getNode() const   { return _node; }
     string getName() const  { return _name; }
-    int getFirstNet() const { return _netList[0]; }
+    //int getFirstNet() const { return _netList[0]; }
     //vector<int> getNetList() const  { return _netList; }
 
     // Set functions
-    void setNode(Node* node)        { _node = node; }
-    void setGain(const int gain)    { _gain = gain; }
-    void setPart(const bool part)   { _part = part; }
-    void setName(const string name) { _name = name; }
+    void setNode(Node* const node)        { _node = node; }
+    void setGain(const int& gain)    { _gain = gain; }
+    void setPart(const bool& part)   { _part = part; }
+    void setName(const string& name) { _name = name; }
 
 	//my function
 	vector<int>* getNetListPtr() { return &_netList; }
-	//bool getChange() { return _gainChange; }
-	//void setChange(bool b) { _gainChange = b; }
     
 	// Modify methods
     void move()         { _part = !_part; }
@@ -79,9 +77,6 @@ private:
     Node*           _node;      // node used to link the cells together
     string          _name;      // name of the cell
     vector<int>     _netList;   // list of nets the cell is connected to
-
-	//for update bList
-	//bool            _gainChange;
 };
 
 #endif  // CELL_H

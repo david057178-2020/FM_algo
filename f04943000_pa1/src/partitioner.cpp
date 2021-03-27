@@ -342,18 +342,62 @@ void Partitioner::updateGain(Cell* baseCell)
 
 Cell* Partitioner::pickBaseCell()
 {
-	Node* maxNode = NULL;
 	map<int, Node*>::reverse_iterator itA = _bList[0].rbegin();
 	map<int, Node*>::reverse_iterator itB = _bList[1].rbegin();
+	bool AtoB;
+
+	if(itA == _bList[0].rend()){//if no unlock cell in A
+		AtoB = false;
+	}
+	else if(itB == _bList[1].rend()){//if no unlock cell in B
+		AtoB = true;
+	}
+	else{
+		//if move cell from A will cause un-balance
+		if(!checkBalance(_partSize[0] - 1)){
+			AtoB = false;
+		}
+		//if move cell from B will cause un-balance
+		else if(!checkBalance(_partSize[1] - 1)){
+			AtoB = true;
+		}
+		else{//choose the larger one
+			if(itA->second->getId() > itB->second->getId()){
+				AtoB = true;
+			}
+			else if(itA->second->getId() < itB->second->getId()){
+				AtoB = false;
+			}
+			else{//choose the more balance one
+				if(_partSize[0] >= _partSize[1]){
+					AtoB = true;
+				}
+				else{
+					AtoB = false;
+				}
+	        }
+		}
+	}
+
+	if(AtoB){
+        --_partSize[0];
+        ++_partSize[1];
+        return _cellArray[itA->second->getNext()->getId()];
+    }
+    else{
+        ++_partSize[0];
+        --_partSize[1];
+        return _cellArray[itB->second->getNext()->getId()];
+    }
+
+	/*
 	bool AtoB = true;
 
 	while(itA != _bList[0].rend() && itB != _bList[1].rend()){
+		//if max gain cell is at part A
 		if(itA->second->getId() > itB->second->getId()){
+			//if we can move the cell from A without breaking the balance
 			if(checkBalance(_partSize[0] - 1)){
-				/*
-				maxNode = findUnLock(itA->second->getNext());
-				if(maxNode != NULL) return _cellArray[maxNode->getId()];
-				*/
 				AtoB = true;
 				break;
 			}
@@ -361,10 +405,6 @@ Cell* Partitioner::pickBaseCell()
 		}
 		else if(itA->second->getId() < itB->second->getId()){
 			if(checkBalance(_partSize[1] - 1)) {
-				/*
-				maxNode = findUnLock(itB->second->getNext());
-				if(maxNode != NULL) return _cellArray[maxNode->getId()];
-				*/
 				AtoB = false;
 				break;
 			}
@@ -372,19 +412,9 @@ Cell* Partitioner::pickBaseCell()
 		}
 		else{
 			if(_partSize[0] >= _partSize[1]){
-				/*
-				maxNode = findUnLock(itA->second->getNext());
-				if(maxNode != NULL) return _cellArray[maxNode->getId()];
-				else ++itA;
-				*/
 				AtoB = true;
 			}
 			else{
-				/*
-				maxNode = findUnLock(itB->second->getNext());
-				if(maxNode != NULL) return _cellArray[maxNode->getId()];
-				else ++itB;
-				*/
 				AtoB = false;
 			}
 			break;
@@ -401,6 +431,7 @@ Cell* Partitioner::pickBaseCell()
 		--_partSize[1];
 		return _cellArray[itB->second->getNext()->getId()];
 	}
+	*/
 }
 
 void Partitioner::partition()
@@ -417,10 +448,11 @@ void Partitioner::partition()
 		_accGain = 0;
 		_maxAccGain = 0;
 		_bestMoveNum = -1;
+
 		//for loop until all lock
 		for(_iterNum = 0; _iterNum <_cellNum; ++_iterNum){
 			//move the node with max gain
-			Cell* baseCell = pickBaseCell();
+			Cell* const baseCell = pickBaseCell();
 
 			const int& gain = baseCell->getGain(); 
 			cout << "move cell " << baseCell->getName() << ", gain = " << gain << endl;

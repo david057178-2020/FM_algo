@@ -46,8 +46,8 @@ public:
 		return (size >= LB && size <= UB);
 	}
 	void updateGain(Cell* cell);
-	void changeAllGainOnNet(Net* net, const bool& b); //dec(0), inc(1)
-	void changeOneGainOnNet(Net* net, const bool& b, const bool& part); //A(0), B(1)
+	void changeAllGainOnNet(Net* const net, const bool& inc); 
+	void changeOneGainOnNet(Net* const net, const bool& inc, const bool& part);
 	void printBList();
 	void updateList(Cell* cell);
 	void deleteNode(Node* node);

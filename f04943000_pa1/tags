@@ -56,8 +56,8 @@ _sizeDiff	src/partitioner.h	/^	int                 _sizeDiff;      \/\/for decid
 _unlockNum	src/partitioner.h	/^    int                 _unlockNum[2];  \/\/ number of unlocked cells$/;"	m	class:Partitioner
 addCell	src/net.h	/^    void addCell(const int cellId)  { _cellList.push_back(cellId); }$/;"	f	class:Net
 addNet	src/cell.h	/^    void addNet(const int netId) { _netList.push_back(netId); }$/;"	f	class:Cell
-changeAllGainOnNet	src/partitioner.cpp	/^void Partitioner::changeAllGainOnNet(Net* net, const bool& b)$/;"	f	class:Partitioner
-changeOneGainOnNet	src/partitioner.cpp	/^void Partitioner::changeOneGainOnNet(Net* net, const bool& b, const bool& part)$/;"	f	class:Partitioner
+changeAllGainOnNet	src/partitioner.cpp	/^void Partitioner::changeAllGainOnNet(Net* const net, const bool& inc)$/;"	f	class:Partitioner
+changeOneGainOnNet	src/partitioner.cpp	/^void Partitioner::changeOneGainOnNet(Net* const net, const bool& inc, const bool& part)$/;"	f	class:Partitioner
 checkBalance	src/partitioner.h	/^	bool checkBalance(const int& size){$/;"	f	class:Partitioner
 clear	src/partitioner.cpp	/^void Partitioner::clear()$/;"	f	class:Partitioner
 decGain	src/cell.h	/^    void decGain()      { --_gain; }$/;"	f	class:Cell

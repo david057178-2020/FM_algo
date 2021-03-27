@@ -256,41 +256,30 @@ void Partitioner::updateList(Cell* baseCell)
 	deleteNode(baseCell->getNode());
 }
 
-void Partitioner::changeAllGainOnNet(Net* net, const bool& b)
+void Partitioner::changeAllGainOnNet(Net* const net, const bool& inc)
 {
-	//cout << "for all cell in net " << net->getName() << endl;
 	vector<int>* cellList = net->getCellListPtr();
 	Cell* cell;
-	Node* node;
+
     for(int j = 0, m = cellList->size(); j < m; ++j){
         cell = _cellArray[(*cellList)[j]];
         if(!cell->getLock()){
-			if(b) {
-				cell->incGain();
-			}
-			else {
-				cell->decGain();
-			}
+			if(inc) cell->incGain();
+			else cell->decGain();
         }
     }
 }
 
-void Partitioner::changeOneGainOnNet(Net* net, const bool& b, const bool& part)
+void Partitioner::changeOneGainOnNet(Net* const net, const bool& inc, const bool& part)
 {
-	//cout << "for one cell in net " << net->getName() << " in part " << part << endl;
 	vector<int>* cellList = net->getCellListPtr();
 	Cell* cell;
-	Node* node;
-    for(int j = 0, m = cellList->size(); j < m; ++j){
+    
+	for(int j = 0, m = cellList->size(); j < m; ++j){
         cell = _cellArray[(*cellList)[j]];
         if(cell->getPart() == part && (!cell->getLock()) ){
-			//cout << "---> find cell " << cell->getName() << endl;
-            if(b) {
-	            cell->incGain();
-			}
-			else {
-				cell->decGain();
-			}
+            if(inc) cell->incGain();
+			else cell->decGain();
 			break;
         }
     }
@@ -298,20 +287,19 @@ void Partitioner::changeOneGainOnNet(Net* net, const bool& b, const bool& part)
 
 void Partitioner::updateGain(Cell* baseCell)
 {
-	//cout << "consider cell " << baseCell->getName() << endl;
-	const bool& F = baseCell->getPart();
-	const bool& T = !F;
+	const bool F = baseCell->getPart();
+	const bool T = !F;
 
 	baseCell->move();
 	baseCell->lock();
 
-	//update gain
 	vector<int>* netList = baseCell->getNetListPtr();
 	Net* net;
-    //for each net on base cell
+    
+	//for each net on base cell
     for (size_t j = 0, m = netList->size(); j < m; ++j) {
         net = _netArray[(*netList)[j]];
-		//cout << "consider net " << net->getName() << endl;
+		
 		//before move
 		if(net->getPartCount(T) == 0){
 			//++gain for all free cell on n
@@ -389,49 +377,6 @@ Cell* Partitioner::pickBaseCell()
         --_partSize[1];
         return _cellArray[itB->second->getNext()->getId()];
     }
-
-	/*
-	bool AtoB = true;
-
-	while(itA != _bList[0].rend() && itB != _bList[1].rend()){
-		//if max gain cell is at part A
-		if(itA->second->getId() > itB->second->getId()){
-			//if we can move the cell from A without breaking the balance
-			if(checkBalance(_partSize[0] - 1)){
-				AtoB = true;
-				break;
-			}
-			else ++itA;
-		}
-		else if(itA->second->getId() < itB->second->getId()){
-			if(checkBalance(_partSize[1] - 1)) {
-				AtoB = false;
-				break;
-			}
-			else ++itB;
-		}
-		else{
-			if(_partSize[0] >= _partSize[1]){
-				AtoB = true;
-			}
-			else{
-				AtoB = false;
-			}
-			break;
-		}
-	}
-
-	if(AtoB){
-		--_partSize[0];
-		++_partSize[1];
-		return _cellArray[itA->second->getNext()->getId()];
-	}
-	else{
-		++_partSize[0];
-		--_partSize[1];
-		return _cellArray[itB->second->getNext()->getId()];
-	}
-	*/
 }
 
 void Partitioner::partition()
@@ -449,13 +394,16 @@ void Partitioner::partition()
 		_maxAccGain = 0;
 		_bestMoveNum = -1;
 
+		Cell* baseCell;
 		//for loop until all lock
 		for(_iterNum = 0; _iterNum <_cellNum; ++_iterNum){
 			//move the node with max gain
-			Cell* const baseCell = pickBaseCell();
+			baseCell = pickBaseCell();
+			const int gain = baseCell->getGain(); 
 
-			const int& gain = baseCell->getGain(); 
+			//for debug
 			cout << "move cell " << baseCell->getName() << ", gain = " << gain << endl;
+			
 			_moveStack[_iterNum] = baseCell->getNode()->getId();
 			_accGain += gain;
 			if(_accGain > _maxAccGain){
@@ -475,10 +423,11 @@ void Partitioner::partition()
 					_sizeDiff = diff;
 				}
 			}
+
 			updateGain(baseCell);
 			updateList(baseCell);
 		}
-		//
+
 		cout << "maxAccGain = " << _maxAccGain << endl;
 		cout << "happen at rount " << _bestMoveNum << endl;
 		Cell* cell;

@@ -87,7 +87,7 @@ incGain	src/cell.h	/^    void incGain()      { ++_gain; }$/;"	f	class:Cell
 incPartCount	src/net.h	/^    void incPartCount(int part)     { ++_partCount[part]; }$/;"	f	class:Net
 incPinNum	src/cell.h	/^    void incPinNum()    { ++_pinNum; }$/;"	f	class:Cell
 initParti	src/partitioner.cpp	/^void Partitioner::initParti()$/;"	f	class:Partitioner
-insertNode	src/partitioner.cpp	/^void Partitioner::insertNode(Node* node)$/;"	f	class:Partitioner
+insertNode	src/partitioner.cpp	/^void Partitioner::insertNode(Node* const node)$/;"	f	class:Partitioner
 lock	src/cell.h	/^    void lock()         { _lock = true; }$/;"	f	class:Cell
 main	src/main.cpp	/^int main(int argc, char** argv)$/;"	f
 move	src/cell.h	/^    void move()         { _part = !_part; }$/;"	f	class:Cell
@@ -98,14 +98,11 @@ printBList	src/partitioner.cpp	/^void Partitioner::printBList()$/;"	f	class:Part
 printSummary	src/partitioner.cpp	/^void Partitioner::printSummary() const$/;"	f	class:Partitioner
 reportCell	src/partitioner.cpp	/^void Partitioner::reportCell() const$/;"	f	class:Partitioner
 reportNet	src/partitioner.cpp	/^void Partitioner::reportNet() const$/;"	f	class:Partitioner
-setBSize	src/partitioner.h	/^	void setBSize(const int& n) { _partSize[0] = _cellNum - n; _partSize[1] = n; }$/;"	f	class:Partitioner
-setCutSize	src/partitioner.h	/^	void setCutSize(const int& n) { _cutSize = n; }  $/;"	f	class:Partitioner
+setBasic	src/partitioner.cpp	/^void Partitioner::setBasic()$/;"	f	class:Partitioner
 setGain	src/cell.h	/^    void setGain(const int gain)    { _gain = gain; }$/;"	f	class:Cell
 setId	src/cell.h	/^    void setId(const int& id) { _id = id; }$/;"	f	class:Node
 setInitG	src/partitioner.cpp	/^void Partitioner::setInitG()$/;"	f	class:Partitioner
 setMaxGainNode	src/partitioner.h	/^	void setMaxGainNode(Node* node) { _maxGainCell = node; }$/;"	f	class:Partitioner
-setMaxPin	src/partitioner.cpp	/^void Partitioner::setMaxPin()$/;"	f	class:Partitioner
-setMaxPinNum	src/partitioner.h	/^	void setMaxPinNum(const int& n) { _maxPinNum = n; }$/;"	f	class:Partitioner
 setName	src/cell.h	/^    void setName(const string name) { _name = name; }$/;"	f	class:Cell
 setName	src/net.h	/^    void setName(const string name) { _name = name; }$/;"	f	class:Net
 setNext	src/cell.h	/^    void setNext(Node* next)  { _next = next; }$/;"	f	class:Node

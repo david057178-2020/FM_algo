@@ -36,12 +36,9 @@ public:
 
     //my function
 	void initParti();
-	void setMaxPin();
+	void setBasic();
 	void setPartCountAndCutSize();
 	void setInitG();
-	void setCutSize(const int& n) { _cutSize = n; }  
-	void setBSize(const int& n) { _partSize[0] = _cellNum - n; _partSize[1] = n; }
-	void setMaxPinNum(const int& n) { _maxPinNum = n; }
 	void setMaxGainNode(Node* node) { _maxGainCell = node; }
 	bool checkBalance(const int& size){
 		const double& UB = ((1 + _bFactor) / 2) * _cellNum;
@@ -54,7 +51,7 @@ public:
 	void printBList();
 	void updateList(Cell* cell);
 	void deleteNode(Node* node);
-	void insertNode(Node* node);	
+	void insertNode(Node* const node);	
 	void initBList();
 	Cell* pickBaseCell();
 

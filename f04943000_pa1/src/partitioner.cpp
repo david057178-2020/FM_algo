@@ -65,23 +65,23 @@ void Partitioner::parseInput(fstream& inFile)
 
 void Partitioner::initParti()
 {
-	//move node and set part size and set max pin
+	//move half of node to the other part
 	const int halfNode = getCellNum() / 2;
-	Cell* cell;
 	for(size_t i = 0; i < halfNode; ++i){
-		cell = _cellArray[i];
-		cell->move();
+		_cellArray[i]->move();
 	}
-	setBSize(halfNode);
+	_partSize[0] = _cellNum - halfNode;
+	_partSize[1] = halfNode;
 }
 
 void Partitioner::setPartCountAndCutSize()
 {
 	//set part count and cut size
-	int cutSize = 0;
+	_cutSize = 0;
 	Net* net;
-	Cell* cell;
 	vector<int>* cellList;
+	
+	//for each net
 	for(size_t i = 0, n = getNetNum(); i < n; ++i){
 		net = _netArray[i];
 		//reset partCount
@@ -89,72 +89,58 @@ void Partitioner::setPartCountAndCutSize()
 		net->setPartCount(1, 0);
 
 		cellList = net->getCellListPtr();
+		//for each cell on this net
 		for(size_t j = 0, m = cellList->size(); j < m; ++j){
-			cell = _cellArray[(*cellList)[j]];
-			const bool& part = cell->getPart();
-			net->incPartCount(part);
+			// increase the part count where the cell belongs to
+			net->incPartCount(_cellArray[(*cellList)[j]]->getPart());
 		}
-		//record cut size
-		if(net->getPartCount(0) > 0 && net->getPartCount(1) > 0) ++cutSize;
 
+		//record cut size
+		if(net->getPartCount(0) > 0 && net->getPartCount(1) > 0) ++_cutSize;
 	}
-	setCutSize(cutSize);
 }
 
-void Partitioner::setMaxPin()
+void Partitioner::setBasic()
 {
 	//set max pin num
-	int maxPin = 0;
-	Cell* cell;
+	_maxPinNum = 0;
 	for(size_t i = 0, n = getCellNum(); i < n; ++i){
-		cell = _cellArray[i];
-		if(cell->getPinNum() > maxPin) maxPin = cell->getPinNum();
+		if(_cellArray[i]->getPinNum() > _maxPinNum){ 
+			_maxPinNum = _cellArray[i]->getPinNum();
+		}
 	}
-	setMaxPinNum(maxPin); 
-	//cout << "max pin num = " << maxPin << endl;
+
+	//init moveStack
+	_moveStack.reserve(_cellNum);
+	_moveStack.resize(_cellNum);
 }
 
 void Partitioner::setInitG()
 {
-	const int& n = getCellNum();
-	//int maxG = 0;
-	//int maxP = 0;
-	//Cell* maxGainCell;
+	const int n = getCellNum();
 	Cell* cell;
-	Node* node;
 	vector<int>* netList;
 	Net* net;
+	bool part;
 	for(size_t i = 0; i < n; ++i){//for each cell
 		cell = _cellArray[i];
+		//reset the cell
 		cell->unlock();
 		cell->setGain(0);
-		const bool& part = cell->getPart();
+
+		part = cell->getPart();
         netList = cell->getNetListPtr();
 		//compute gain of each cell
 		for (size_t j = 0, m = netList->size(); j < m; ++j) {
+			//for each net of this cell
 			net = _netArray[(*netList)[j]];
-			if(net->getPartCount(part) == 1){
-				cell->incGain();
-			}
-			else if(net->getPartCount(!part) == 0){
-				cell->decGain();
-			}
+			if(net->getPartCount(part) == 1) cell->incGain();
+			else if(net->getPartCount(!part) == 0) cell->decGain();
 		}
-		//cout << "(cell, gain) = " << cell->getName() << ", " << cell->gain()
-		/*
-		const int& gain = cell->getGain();
-		//record max gain cell
-		if(gain > maxG) {
-			maxP = part;
-			maxG = gain;
-		}
-		*/
-		//record bList
-		node = cell->getNode();
-		insertNode(node);
-	}
-	//setMaxGainNode(_bList[maxP][maxG]);
 
+		//record bList
+		insertNode(cell->getNode());
+	}
 	//for debug
 	printBList();
 }
@@ -217,11 +203,11 @@ void Partitioner::deleteNode(Node* node)
 	node->setNext(NULL);
 }
 
-void Partitioner::insertNode(Node* node)
+void Partitioner::insertNode(Node* const node)
 {
-	Cell* cell = _cellArray[node->getId()];
-	const int& gain = cell->getGain();
-	const int& part = cell->getPart();
+	const Cell* const cell = _cellArray[node->getId()];
+	const int gain = cell->getGain();
+	const int part = cell->getPart();
 
 	
 	//if open an empty entry, insert a dummy node first
@@ -422,12 +408,7 @@ void Partitioner::partition()
 	//TODO
 	//initial partition
 	initParti();
-	setMaxPin();
-	//set initial gain
-	//setInitG();
-
-	_moveStack.reserve(_cellNum);
-	_moveStack.resize(_cellNum);
+	setBasic();
 
 	//iteratively until no improve
 	do{

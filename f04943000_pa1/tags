@@ -51,7 +51,7 @@ _partSize	src/partitioner.h	/^    int                 _partSize[2];   \/\/ size 
 _pinNum	src/cell.h	/^    int             _pinNum;    \/\/ number of pins the cell are connected to$/;"	m	class:Cell
 _prev	src/cell.h	/^    Node*       _prev;  \/\/ pointer to the previous node$/;"	m	class:Node
 _sizeDiff	src/partitioner.h	/^	int                 _sizeDiff;      \/\/for decideing tie _maxAccGain$/;"	m	class:Partitioner
-_timeOut	src/partitioner.h	/^    int                 _timeOut;       \/\/ avoid not stop $/;"	m	class:Partitioner
+_timeOut	src/partitioner.h	/^    double                 _timeOut;       \/\/ avoid not stop $/;"	m	class:Partitioner
 addCell	src/net.h	/^    void addCell(const int& cellId)  { _cellList.push_back(cellId); }$/;"	f	class:Net
 addNet	src/cell.h	/^    void addNet(const int netId) { _netList.push_back(netId); }$/;"	f	class:Cell
 changeAllGainOnNet	src/partitioner.cpp	/^void Partitioner::changeAllGainOnNet(Net* const net, const bool& inc)$/;"	f	class:Partitioner

@@ -9,6 +9,7 @@
 #include "cell.h"
 #include "net.h"
 #include "partitioner.h"
+#include <time.h>
 using namespace std;
 
 
@@ -115,17 +116,16 @@ void Partitioner::setBasic()
 	_moveStack.resize(_cellNum);
 
 	//set timeOut
-	_timeOut = 1000;
+	_timeOut = 300.0;
 }
 
 void Partitioner::setInitG()
 {
-	const int n = getCellNum();
 	Cell* cell;
 	vector<int>* netList;
 	Net* net;
 	bool part;
-	for(size_t i = 0; i < n; ++i){//for each cell
+	for(size_t i = 0, n = getCellNum(); i < n; ++i){//for each cell
 		cell = _cellArray[i];
 		//reset the cell
 		cell->unlock();
@@ -145,7 +145,7 @@ void Partitioner::setInitG()
 		insertNode(cell->getNode());
 	}
 	//for debug
-	printBList();
+	//printBList();
 }
 
 void Partitioner::printBList()
@@ -385,14 +385,21 @@ Cell* Partitioner::pickBaseCell()
 void Partitioner::partition()
 {
 	//TODO
+	//for time
+	double START, END;
+
 	//initial partition
 	initParti();
 	setBasic();
 
 	//iteratively until no improve
-	while(_timeOut > 0){
+	while(_timeOut > 0.0){
+		START = clock();
+
 		setPartCountAndCutSize();
+		cout << "cutSize = " << _cutSize << endl;
 		setInitG();
+
 		_accGain = 0;
 		_maxAccGain = 0;
 		_bestMoveNum = -1;
@@ -405,7 +412,7 @@ void Partitioner::partition()
 			const int gain = baseCell->getGain(); 
 
 			//for debug
-			cout << "move cell " << baseCell->getName() << ", gain = " << gain << endl;
+			//cout << "move cell " << baseCell->getName() << ", gain = " << gain << endl;
 			
 			_moveStack[_iterNum] = baseCell->getNode()->getId();
 			_accGain += gain;
@@ -429,10 +436,11 @@ void Partitioner::partition()
 
 			updateGain(baseCell);
 			updateList(baseCell);
-		}
+		}//end for loop
 
-		cout << "maxAccGain = " << _maxAccGain << endl;
+		cout << "maxAccGain = " << _maxAccGain << ", ";
 		cout << "happen at rount " << _bestMoveNum << endl;
+		
 		if(_maxAccGain > 0){
 			Cell* cell;
 			for(size_t i = _cellNum - 1; i > _bestMoveNum; --i){
@@ -441,10 +449,13 @@ void Partitioner::partition()
 				++_partSize[cell->getPart()];
 				--_partSize[!cell->getPart()];
 			}
-			--_timeOut;
+			END = clock();
+			double t = (END - START) / CLOCKS_PER_SEC;
+		    cout << t << " sec" << endl;
+			//_timeOut -= t;
 		}
 		else return;
-	}//end while
+	}
 
 	cout << "time out !!" << endl;
 }

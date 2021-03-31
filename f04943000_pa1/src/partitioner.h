@@ -83,7 +83,7 @@ private:
 
 	//my member
 	int                 _sizeDiff;      //for decideing tie _maxAccGain
-    int                 _timeOut;       // avoid not stop 
+    double                 _timeOut;       // avoid not stop 
 	// Clean up partitioner
     void clear();
 };

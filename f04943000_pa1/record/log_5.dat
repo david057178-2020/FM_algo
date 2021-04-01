@@ -1,0 +1,92 @@
+cutSize = 251653
+maxAccGain = 88321, happen at rount 159484
+2.05956 sec
+cutSize = 163332
+maxAccGain = 12830, happen at rount 69667
+2.0163 sec
+cutSize = 150502
+maxAccGain = 3542, happen at rount 43735
+2.12444 sec
+cutSize = 146960
+maxAccGain = 1580, happen at rount 34143
+2.23821 sec
+cutSize = 145380
+maxAccGain = 828, happen at rount 30291
+2.12358 sec
+cutSize = 144552
+maxAccGain = 468, happen at rount 27353
+2.08848 sec
+cutSize = 144084
+maxAccGain = 257, happen at rount 25457
+2.10262 sec
+cutSize = 143827
+maxAccGain = 199, happen at rount 24818
+2.05418 sec
+cutSize = 143628
+maxAccGain = 109, happen at rount 24351
+2.04696 sec
+cutSize = 143519
+maxAccGain = 79, happen at rount 24077
+2.04994 sec
+cutSize = 143440
+maxAccGain = 57, happen at rount 24025
+2.07555 sec
+cutSize = 143383
+maxAccGain = 36, happen at rount 23591
+2.04191 sec
+cutSize = 143347
+maxAccGain = 16, happen at rount 19789
+2.03747 sec
+cutSize = 143331
+maxAccGain = 28, happen at rount 22319
+2.02247 sec
+cutSize = 143303
+maxAccGain = 23, happen at rount 21514
+2.01254 sec
+cutSize = 143280
+maxAccGain = 25, happen at rount 22998
+2.01198 sec
+cutSize = 143255
+maxAccGain = 11, happen at rount 23335
+2.00376 sec
+cutSize = 143244
+maxAccGain = 17, happen at rount 18204
+2.01932 sec
+cutSize = 143227
+maxAccGain = 21, happen at rount 21765
+2.06442 sec
+cutSize = 143206
+maxAccGain = 27, happen at rount 21743
+2.02524 sec
+cutSize = 143179
+maxAccGain = 11, happen at rount 22844
+2.04098 sec
+cutSize = 143168
+maxAccGain = 4, happen at rount 17316
+2.03651 sec
+cutSize = 143164
+maxAccGain = 14, happen at rount 20083
+2.03905 sec
+cutSize = 143150
+maxAccGain = 15, happen at rount 17213
+2.04017 sec
+cutSize = 143135
+maxAccGain = 12, happen at rount 20607
+2.01382 sec
+cutSize = 143123
+maxAccGain = 4, happen at rount 21694
+2.00231 sec
+cutSize = 143119
+maxAccGain = 9, happen at rount 20166
+2.01294 sec
+cutSize = 143110
+maxAccGain = 0, happen at rount -1
+
+==================== Summary ====================
+ Cutsize: 143110
+ Total cell number: 382489
+ Total net number:  483599
+ Cell Number of partition A: 191245
+ Cell Number of partition B: 191244
+=================================================
+

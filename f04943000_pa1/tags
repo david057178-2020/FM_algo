@@ -56,28 +56,23 @@ addCell	src/net.h	/^    void addCell(const int& cellId)  { _cellList.push_back(c
 addNet	src/cell.h	/^    void addNet(const int netId) { _netList.push_back(netId); }$/;"	f	class:Cell
 changeAllGainOnNet	src/partitioner.cpp	/^void Partitioner::changeAllGainOnNet(Net* const net, const bool& inc)$/;"	f	class:Partitioner
 changeOneGainOnNet	src/partitioner.cpp	/^void Partitioner::changeOneGainOnNet(Net* const net, const bool& inc, const bool& part)$/;"	f	class:Partitioner
-checkBalance	src/partitioner.h	/^	bool checkBalance(const int& size) const{$/;"	f	class:Partitioner
+checkBalance	src/partitioner.h	/^	bool checkBalance(const double size) const{$/;"	f	class:Partitioner
 clear	src/partitioner.cpp	/^void Partitioner::clear()$/;"	f	class:Partitioner
 decGain	src/cell.h	/^    void decGain()      { --_gain; }$/;"	f	class:Cell
 decPartCount	src/net.h	/^    void decPartCount(const int& part)     { --_partCount[part]; }$/;"	f	class:Net
 decPinNum	src/cell.h	/^    void decPinNum()    { --_pinNum; }$/;"	f	class:Cell
 deleteNode	src/partitioner.cpp	/^void Partitioner::deleteNode(Node* const node)$/;"	f	class:Partitioner
-getBFactor	src/partitioner.h	/^    double getBFactor() const       { return _bFactor; }$/;"	f	class:Partitioner
 getCellListPtr	src/net.h	/^    vector<int>* getCellListPtr() { return &_cellList; }$/;"	f	class:Net
-getCellNum	src/partitioner.h	/^    int getCellNum() const          { return _cellNum; }$/;"	f	class:Partitioner
-getCutSize	src/partitioner.h	/^    int getCutSize() const          { return _cutSize; }$/;"	f	class:Partitioner
 getGain	src/cell.h	/^    int getGain() const     { return _gain; }$/;"	f	class:Cell
 getId	src/cell.h	/^    int getId() const       { return _id; }$/;"	f	class:Node
 getLock	src/cell.h	/^    bool getLock() const    { return _lock; }$/;"	f	class:Cell
 getName	src/cell.h	/^    string getName() const  { return _name; }$/;"	f	class:Cell
 getName	src/net.h	/^    string getName()           const { return _name; }$/;"	f	class:Net
 getNetListPtr	src/cell.h	/^	vector<int>* getNetListPtr() { return &_netList; }$/;"	f	class:Cell
-getNetNum	src/partitioner.h	/^    int getNetNum() const           { return _netNum; }$/;"	f	class:Partitioner
 getNext	src/cell.h	/^    Node* getNext() const   { return _next; }$/;"	f	class:Node
 getNode	src/cell.h	/^    Node* getNode() const   { return _node; }$/;"	f	class:Cell
 getPart	src/cell.h	/^    bool getPart() const    { return _part; }$/;"	f	class:Cell
 getPartCount	src/net.h	/^    int getPartCount(const int& part) const { return _partCount[part]; }$/;"	f	class:Net
-getPartSize	src/partitioner.h	/^    int getPartSize(const int& part) const { return _partSize[part]; }$/;"	f	class:Partitioner
 getPinNum	src/cell.h	/^    int getPinNum() const   { return _pinNum; }$/;"	f	class:Cell
 getPrev	src/cell.h	/^    Node* getPrev() const   { return _prev; }$/;"	f	class:Node
 incGain	src/cell.h	/^    void incGain()      { ++_gain; }$/;"	f	class:Cell

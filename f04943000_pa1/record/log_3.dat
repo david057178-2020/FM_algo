@@ -1,0 +1,101 @@
+cutSize = 47238
+maxAccGain = 16447, happen at rount 27839
+0.216627 sec
+cutSize = 30791
+maxAccGain = 2327, happen at rount 12104
+0.20775 sec
+cutSize = 28464
+maxAccGain = 674, happen at rount 7949
+0.211652 sec
+cutSize = 27790
+maxAccGain = 300, happen at rount 6024
+0.205747 sec
+cutSize = 27490
+maxAccGain = 180, happen at rount 5093
+0.206102 sec
+cutSize = 27310
+maxAccGain = 81, happen at rount 4621
+0.211711 sec
+cutSize = 27229
+maxAccGain = 57, happen at rount 4315
+0.204705 sec
+cutSize = 27172
+maxAccGain = 28, happen at rount 4043
+0.202136 sec
+cutSize = 27144
+maxAccGain = 25, happen at rount 3625
+0.206232 sec
+cutSize = 27119
+maxAccGain = 12, happen at rount 3760
+0.200388 sec
+cutSize = 27107
+maxAccGain = 10, happen at rount 3188
+0.201909 sec
+cutSize = 27097
+maxAccGain = 3, happen at rount 2745
+0.207418 sec
+cutSize = 27094
+maxAccGain = 3, happen at rount 3567
+0.201082 sec
+cutSize = 27091
+maxAccGain = 2, happen at rount 3752
+0.209341 sec
+cutSize = 27089
+maxAccGain = 4, happen at rount 3656
+0.212295 sec
+cutSize = 27085
+maxAccGain = 8, happen at rount 3309
+0.21819 sec
+cutSize = 27077
+maxAccGain = 4, happen at rount 3285
+0.204357 sec
+cutSize = 27073
+maxAccGain = 2, happen at rount 3601
+0.207164 sec
+cutSize = 27071
+maxAccGain = 1, happen at rount 2623
+0.201244 sec
+cutSize = 27070
+maxAccGain = 2, happen at rount 917
+0.200758 sec
+cutSize = 27068
+maxAccGain = 1, happen at rount 1693
+0.207958 sec
+cutSize = 27067
+maxAccGain = 2, happen at rount 3479
+0.202211 sec
+cutSize = 27065
+maxAccGain = 3, happen at rount 3451
+0.206307 sec
+cutSize = 27062
+maxAccGain = 6, happen at rount 2487
+0.20342 sec
+cutSize = 27056
+maxAccGain = 4, happen at rount 66612
+0.205235 sec
+cutSize = 27052
+maxAccGain = 21, happen at rount 3656
+0.21531 sec
+cutSize = 27031
+maxAccGain = 6, happen at rount 3257
+0.21908 sec
+cutSize = 27025
+maxAccGain = 3, happen at rount 3181
+0.209127 sec
+cutSize = 27022
+maxAccGain = 1, happen at rount 2183
+0.209685 sec
+cutSize = 27021
+maxAccGain = 2, happen at rount 3
+0.203705 sec
+cutSize = 27019
+maxAccGain = 0, happen at rount -1
+
+==================== Summary ====================
+ Cutsize: 27019
+ Total cell number: 66666
+ Total net number:  88888
+ Cell Number of partition A: 33333
+ Cell Number of partition B: 33333
+=================================================
+

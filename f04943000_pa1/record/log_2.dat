@@ -1,0 +1,29 @@
+cutSize = 4470
+maxAccGain = 1930, happen at rount 2865
+0.008821 sec
+cutSize = 2540
+maxAccGain = 244, happen at rount 981
+0.008027 sec
+cutSize = 2296
+maxAccGain = 51, happen at rount 627
+0.008214 sec
+cutSize = 2245
+maxAccGain = 26, happen at rount 497
+0.008586 sec
+cutSize = 2219
+maxAccGain = 11, happen at rount 431
+0.007799 sec
+cutSize = 2208
+maxAccGain = 4, happen at rount 125
+0.007866 sec
+cutSize = 2204
+maxAccGain = 0, happen at rount -1
+
+==================== Summary ====================
+ Cutsize: 2204
+ Total cell number: 7000
+ Total net number:  10000
+ Cell Number of partition A: 3500
+ Cell Number of partition B: 3500
+=================================================
+

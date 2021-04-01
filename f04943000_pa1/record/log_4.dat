@@ -1,0 +1,137 @@
+cutSize = 82801
+maxAccGain = 30740, happen at rount 63303
+0.522854 sec
+cutSize = 52061
+maxAccGain = 4670, happen at rount 27522
+0.51799 sec
+cutSize = 47391
+maxAccGain = 1277, happen at rount 17722
+0.513399 sec
+cutSize = 46114
+maxAccGain = 480, happen at rount 13798
+0.5137 sec
+cutSize = 45634
+maxAccGain = 296, happen at rount 12714
+0.517608 sec
+cutSize = 45338
+maxAccGain = 160, happen at rount 11456
+0.511996 sec
+cutSize = 45178
+maxAccGain = 82, happen at rount 11184
+0.51179 sec
+cutSize = 45096
+maxAccGain = 48, happen at rount 10751
+0.51299 sec
+cutSize = 45048
+maxAccGain = 37, happen at rount 10591
+0.542758 sec
+cutSize = 45011
+maxAccGain = 12, happen at rount 10147
+0.547398 sec
+cutSize = 44999
+maxAccGain = 17, happen at rount 9207
+0.512195 sec
+cutSize = 44982
+maxAccGain = 21, happen at rount 9619
+0.515775 sec
+cutSize = 44961
+maxAccGain = 12, happen at rount 10235
+0.504764 sec
+cutSize = 44949
+maxAccGain = 18, happen at rount 9642
+0.501982 sec
+cutSize = 44931
+maxAccGain = 11, happen at rount 9388
+0.507217 sec
+cutSize = 44920
+maxAccGain = 4, happen at rount 2179
+0.513109 sec
+cutSize = 44916
+maxAccGain = 13, happen at rount 8075
+0.560628 sec
+cutSize = 44903
+maxAccGain = 9, happen at rount 9108
+0.534726 sec
+cutSize = 44894
+maxAccGain = 9, happen at rount 8880
+0.522623 sec
+cutSize = 44885
+maxAccGain = 7, happen at rount 8229
+0.500886 sec
+cutSize = 44878
+maxAccGain = 2, happen at rount 6803
+0.508343 sec
+cutSize = 44876
+maxAccGain = 7, happen at rount 6973
+0.510858 sec
+cutSize = 44869
+maxAccGain = 2, happen at rount 7533
+0.520336 sec
+cutSize = 44867
+maxAccGain = 1, happen at rount 7571
+0.491567 sec
+cutSize = 44866
+maxAccGain = 1, happen at rount 6247
+0.514652 sec
+cutSize = 44865
+maxAccGain = 1, happen at rount 5905
+0.494191 sec
+cutSize = 44864
+maxAccGain = 1, happen at rount 150696
+0.483874 sec
+cutSize = 44863
+maxAccGain = 9, happen at rount 8005
+0.501003 sec
+cutSize = 44854
+maxAccGain = 4, happen at rount 8376
+0.508089 sec
+cutSize = 44850
+maxAccGain = 5, happen at rount 7223
+0.496206 sec
+cutSize = 44845
+maxAccGain = 3, happen at rount 8370
+0.501807 sec
+cutSize = 44842
+maxAccGain = 4, happen at rount 9293
+0.50966 sec
+cutSize = 44838
+maxAccGain = 8, happen at rount 9234
+0.517774 sec
+cutSize = 44830
+maxAccGain = 5, happen at rount 150703
+0.515371 sec
+cutSize = 44825
+maxAccGain = 5, happen at rount 7497
+0.524626 sec
+cutSize = 44820
+maxAccGain = 4, happen at rount 6799
+0.534603 sec
+cutSize = 44816
+maxAccGain = 2, happen at rount 8611
+0.518976 sec
+cutSize = 44814
+maxAccGain = 4, happen at rount 8972
+0.515402 sec
+cutSize = 44810
+maxAccGain = 1, happen at rount 4474
+0.526835 sec
+cutSize = 44809
+maxAccGain = 4, happen at rount 8369
+0.537136 sec
+cutSize = 44805
+maxAccGain = 10, happen at rount 9015
+0.514698 sec
+cutSize = 44795
+maxAccGain = 4, happen at rount 1279
+0.519385 sec
+cutSize = 44791
+maxAccGain = 0, happen at rount -1
+
+==================== Summary ====================
+ Cutsize: 44791
+ Total cell number: 150750
+ Total net number:  166998
+ Cell Number of partition A: 75375
+ Cell Number of partition B: 75375
+=================================================
+

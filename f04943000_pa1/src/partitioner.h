@@ -23,12 +23,14 @@ public:
         clear();
     }
 
+	/*
     // basic access methods
     int getCutSize() const          { return _cutSize; }
     int getNetNum() const           { return _netNum; }
     int getCellNum() const          { return _cellNum; }
     double getBFactor() const       { return _bFactor; }
     int getPartSize(const int& part) const { return _partSize[part]; }
+	*/
 
     // modify method
     void parseInput(fstream& inFile);
@@ -39,9 +41,9 @@ public:
 	void setBasic();
 	void setPartCountAndCutSize();
 	void setInitG();
-	bool checkBalance(const int& size) const{
-		const double UB = ((1 + _bFactor) / 2) * _cellNum;
-		const double LB = ((1 - _bFactor) / 2) * _cellNum;		
+	bool checkBalance(const double size) const{
+		const double UB = double( ( (1.0 + _bFactor) / 2.0) * _cellNum);
+		const double LB = double( ( (1.0 - _bFactor) / 2.0) * _cellNum);		
 		return (size >= LB && size <= UB);
 	}
 	void updateGain(Cell* const cell);
@@ -52,6 +54,8 @@ public:
 	void deleteNode(Node* const node);
 	void insertNode(Node* const node);	
 	Cell* pickBaseCell();
+	int calCutSize();
+
 
 	// member functions about reporting
     void printSummary() const;

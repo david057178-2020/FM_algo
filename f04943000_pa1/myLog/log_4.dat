@@ -1,0 +1,95 @@
+(cellNum, netNum) = (150750, 166998)
+maxAccGain = 30740, happen at rount 63303
+0.493631 sec
+maxAccGain = 4670, happen at rount 27522
+0.489301 sec
+maxAccGain = 1277, happen at rount 17722
+0.485945 sec
+maxAccGain = 480, happen at rount 13798
+0.481224 sec
+maxAccGain = 296, happen at rount 12714
+0.478648 sec
+maxAccGain = 160, happen at rount 11456
+0.471135 sec
+maxAccGain = 82, happen at rount 11184
+0.4833 sec
+maxAccGain = 48, happen at rount 10751
+0.463173 sec
+maxAccGain = 37, happen at rount 10591
+0.461204 sec
+maxAccGain = 12, happen at rount 10147
+0.463913 sec
+maxAccGain = 17, happen at rount 9207
+0.463046 sec
+maxAccGain = 21, happen at rount 9619
+0.46651 sec
+maxAccGain = 12, happen at rount 10235
+0.462168 sec
+maxAccGain = 18, happen at rount 9642
+0.47215 sec
+maxAccGain = 11, happen at rount 9388
+0.47679 sec
+maxAccGain = 4, happen at rount 2179
+0.473941 sec
+maxAccGain = 13, happen at rount 8075
+0.474168 sec
+maxAccGain = 9, happen at rount 9108
+0.481385 sec
+maxAccGain = 9, happen at rount 8880
+0.470785 sec
+maxAccGain = 7, happen at rount 8229
+0.462701 sec
+maxAccGain = 2, happen at rount 6803
+0.469385 sec
+maxAccGain = 7, happen at rount 6973
+0.473329 sec
+maxAccGain = 2, happen at rount 7533
+0.477141 sec
+maxAccGain = 1, happen at rount 7571
+0.473463 sec
+maxAccGain = 1, happen at rount 6247
+0.475721 sec
+maxAccGain = 1, happen at rount 5905
+0.466313 sec
+maxAccGain = 1, happen at rount 150696
+0.45351 sec
+maxAccGain = 9, happen at rount 8005
+0.466165 sec
+maxAccGain = 4, happen at rount 8376
+0.499484 sec
+maxAccGain = 5, happen at rount 7223
+0.484161 sec
+maxAccGain = 3, happen at rount 8370
+0.486207 sec
+maxAccGain = 4, happen at rount 9293
+0.486386 sec
+maxAccGain = 8, happen at rount 9234
+0.491327 sec
+maxAccGain = 5, happen at rount 150703
+0.475947 sec
+maxAccGain = 5, happen at rount 7497
+0.490502 sec
+maxAccGain = 4, happen at rount 6799
+0.491408 sec
+maxAccGain = 2, happen at rount 8611
+0.491349 sec
+maxAccGain = 4, happen at rount 8972
+0.490715 sec
+maxAccGain = 1, happen at rount 4474
+0.489612 sec
+maxAccGain = 4, happen at rount 8369
+0.483664 sec
+maxAccGain = 10, happen at rount 9015
+0.478485 sec
+maxAccGain = 4, happen at rount 1279
+0.47857 sec
+maxAccGain = 0, happen at rount -1
+
+==================== Summary ====================
+ Cutsize: 44791
+ Total cell number: 150750
+ Total net number:  166998
+ Cell Number of partition A: 75375
+ Cell Number of partition B: 75375
+=================================================
+

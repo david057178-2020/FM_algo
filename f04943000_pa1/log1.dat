@@ -1,0 +1,25 @@
+(cellNum, netNum) = (150750, 166998)
+cutSize = 65799
+in round 3566
+old: 55743
+new: 55742
+gain: 2
+cell: c1276
+part: 1
+cell gain: 2
+_accGain: 10058
+_maxAccGain: 10058
+best: 3566
+
+reset cell to part 0
+before move, cell gain = 2cutSize = 55743
+aftermove, cutSize = 55742
+
+==================== Summary ====================
+ Cutsize: 55742
+ Total cell number: 150750
+ Total net number:  166998
+ Cell Number of partition A: 75374
+ Cell Number of partition B: 75376
+=================================================
+

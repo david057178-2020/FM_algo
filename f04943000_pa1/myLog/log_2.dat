@@ -1,0 +1,23 @@
+(cellNum, netNum) = (7000, 10000)
+maxAccGain = 1930, happen at rount 2865
+0.008586 sec
+maxAccGain = 244, happen at rount 981
+0.008252 sec
+maxAccGain = 51, happen at rount 627
+0.008425 sec
+maxAccGain = 26, happen at rount 497
+0.008142 sec
+maxAccGain = 11, happen at rount 431
+0.007862 sec
+maxAccGain = 4, happen at rount 125
+0.007821 sec
+maxAccGain = 0, happen at rount -1
+
+==================== Summary ====================
+ Cutsize: 2204
+ Total cell number: 7000
+ Total net number:  10000
+ Cell Number of partition A: 3500
+ Cell Number of partition B: 3500
+=================================================
+

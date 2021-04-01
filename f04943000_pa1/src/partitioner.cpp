@@ -10,6 +10,7 @@
 #include "net.h"
 #include "partitioner.h"
 #include <time.h>
+#include <assert.h>
 using namespace std;
 
 
@@ -67,7 +68,7 @@ void Partitioner::parseInput(fstream& inFile)
 void Partitioner::initParti()
 {
 	//move half of node to the other part
-	const int halfNode = getCellNum() / 2;
+	const int halfNode = _cellNum / 2;
 	for(size_t i = 0; i < halfNode; ++i){
 		_cellArray[i]->move();
 	}
@@ -81,12 +82,12 @@ void Partitioner::setPartCountAndCutSize()
 	_cutSize = 0;
 	Net* net;
 	vector<int>* cellList;
-	
+
 	//for each net
-	for(size_t i = 0, n = getNetNum(); i < n; ++i){
+	for(size_t i = 0; i < _netNum; ++i){
 		net = _netArray[i];
 		//reset partCount
-		net->setPartCount(0, 0);
+		net->setPartCount(0, 0);//(part, count)
 		net->setPartCount(1, 0);
 
 		cellList = net->getCellListPtr();
@@ -99,13 +100,14 @@ void Partitioner::setPartCountAndCutSize()
 		//record cut size
 		if(net->getPartCount(0) > 0 && net->getPartCount(1) > 0) ++_cutSize;
 	}
+
 }
 
 void Partitioner::setBasic()
 {
 	//set max pin num
 	_maxPinNum = 0;
-	for(size_t i = 0, n = getCellNum(); i < n; ++i){
+	for(size_t i = 0; i < _cellNum; ++i){
 		if(_cellArray[i]->getPinNum() > _maxPinNum){ 
 			_maxPinNum = _cellArray[i]->getPinNum();
 		}
@@ -125,7 +127,8 @@ void Partitioner::setInitG()
 	vector<int>* netList;
 	Net* net;
 	bool part;
-	for(size_t i = 0, n = getCellNum(); i < n; ++i){//for each cell
+
+	for(size_t i = 0; i < _cellNum; ++i){//for each cell
 		cell = _cellArray[i];
 		//reset the cell
 		cell->unlock();
@@ -137,8 +140,9 @@ void Partitioner::setInitG()
 		for (size_t j = 0, m = netList->size(); j < m; ++j) {
 			//for each net of this cell
 			net = _netArray[(*netList)[j]];
+
 			if(net->getPartCount(part) == 1) cell->incGain();
-			else if(net->getPartCount(!part) == 0) cell->decGain();
+			if(net->getPartCount(!part) == 0) cell->decGain();
 		}
 
 		//record bList
@@ -277,13 +281,12 @@ void Partitioner::changeOneGainOnNet(Net* const net, const bool& inc, const bool
 {
 	vector<int>* cellList = net->getCellListPtr();
 	Cell* cell;
-    
+
 	for(int j = 0, m = cellList->size(); j < m; ++j){
         cell = _cellArray[(*cellList)[j]];
         if(cell->getPart() == part && (!cell->getLock()) ){
             if(inc) cell->incGain();
 			else cell->decGain();
-			break;
         }
     }
 }
@@ -353,10 +356,10 @@ Cell* Partitioner::pickBaseCell()
 			AtoB = true;
 		}
 		else{//choose the larger one
-			if(itA->second->getId() > itB->second->getId()){
+			if(itA->first > itB->first){
 				AtoB = true;
 			}
-			else if(itA->second->getId() < itB->second->getId()){
+			else if(itA->first < itB->first){
 				AtoB = false;
 			}
 			else{//choose the more balance one
@@ -382,21 +385,58 @@ Cell* Partitioner::pickBaseCell()
     }
 }
 
+/*
+int Partitioner::calCutSize()
+{
+	int cut = 0;
+    Net* net;
+    Cell* cell;
+    vector<int>* cellList;
+            
+	//for each net
+	for(size_t i = 0; i < _netNum; ++i){
+		net = _netArray[i];
+		cellList = net->getCellListPtr();
+		//for each cell on this net
+		int mark = -1;
+		for(size_t j = 0, m = cellList->size(); j < m; ++j){
+			cell = _cellArray[(*cellList)[j]];
+			if(mark == -1)
+				mark = cell->getPart();
+			else if(mark == 0 && cell->getPart() == 1){
+				++cut;
+				break;
+			}	
+			else if(mark == 1 && cell->getPart() == 0){
+				++cut;
+				break;
+			}
+		}
+	}
+	return cut;
+}
+*/
 void Partitioner::partition()
 {
 	//TODO
 	//for time
 	double START, END;
+	cout << "(cellNum, netNum) = (" << _cellNum << ", " << _netNum << ")" << endl;
 
 	//initial partition
 	initParti();
 	setBasic();
+
+	//for debug
+	//int tmpCut;
 
 	//iteratively until no improve
 	while(_timeOut > 0.0){
 		START = clock();
 
 		setPartCountAndCutSize();
+		//for debug
+		//tmpCut = calCutSize();
 		cout << "cutSize = " << _cutSize << endl;
 		setInitG();
 
@@ -436,6 +476,58 @@ void Partitioner::partition()
 
 			updateGain(baseCell);
 			updateList(baseCell);
+/*
+			//for debug
+			int newCut = calCutSize();
+			if(newCut != tmpCut - gain){
+				cout << "in round " << _iterNum << endl;
+				cout << "old: " << tmpCut << endl;
+				cout << "new: " << newCut << endl;
+				cout << "gain: " << gain << endl;
+				cout << "cell: " << baseCell->getName() << endl;
+				cout << "part: " << baseCell->getPart() << endl;
+				cout << "cell gain: " << baseCell->getGain() << endl;
+				cout << "_accGain: " << _accGain << endl;
+				cout << "_maxAccGain: " << _maxAccGain << endl;
+				cout << "best: " << _bestMoveNum << endl;
+
+				baseCell->move();
+				cout << endl << "reset cell to part " << baseCell->getPart() << endl;
+				++_partSize[baseCell->getPart()];
+                --_partSize[!baseCell->getPart()];
+				setPartCountAndCutSize();
+				setInitG();
+				cout << "before move, cell gain = " << baseCell->getGain() << endl;
+				cout << "cutSize = " << _cutSize << endl;
+				baseCell->move();
+				++_partSize[baseCell->getPart()];
+                --_partSize[!baseCell->getPart()];
+				setPartCountAndCutSize();
+				setInitG();
+				cout << "aftermove, cutSize = " << _cutSize << endl;
+				
+				Net* net;
+				Cell* cell;
+				vector<int>* netList = baseCell->getNetListPtr();
+				vector<int>* cellList;
+				cout << endl << "print network:" << endl;
+				for (size_t j = 0, m = netList->size(); j < m; ++j) {
+					//for each net of this cell
+					net = _netArray[(*netList)[j]];
+					cout << "net " << net->getName() << endl;
+					cellList = net->getCellListPtr();
+					//for each cell on this net
+					for(size_t k = 0, l = cellList->size(); k < l; ++k){
+						cell = _cellArray[(*cellList)[k]];
+						cout << "	cell " << cell ->getName();
+					    cout << "(" << cell->getPart() << ")" << endl;
+					}
+				}
+
+				return;
+			}
+			tmpCut = newCut;
+			*/
 		}//end for loop
 
 		cout << "maxAccGain = " << _maxAccGain << ", ";

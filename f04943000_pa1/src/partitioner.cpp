@@ -68,6 +68,7 @@ void Partitioner::parseInput(fstream& inFile)
 void Partitioner::initParti()
 {
 	
+	/*
 	//move half of node to the other part
 	const int halfNode = _cellNum / 2;
 	for(size_t i = 0; i < halfNode; ++i){
@@ -75,15 +76,16 @@ void Partitioner::initParti()
 	}
 	_partSize[0] = _cellNum - halfNode;
 	_partSize[1] = halfNode;
-	
-/*
+	*/
+
 	const int halfNode = _cellNum / 2;
 	Net* net;
 	Cell* cell;
 	vector<int>* cellList;
 	_partSize[1] = 0;
 	//for each net
-	for(size_t i = _netNum - 1; i >= 0; --i){
+	//for(size_t i = _netNum - 1; i >= 0; --i){
+	for(size_t i = 0; i < _netNum; ++i){
 		net = _netArray[i];
 		//cout << "consider net: " << net->getName() << endl;
 		cellList = net->getCellListPtr();
@@ -105,7 +107,7 @@ void Partitioner::initParti()
 	if(!checkBalance(_partSize[0])){
 		cout << "init not balance" << endl;
 	}
-*/
+
 }	
 
 void Partitioner::setPartCountAndCutSize()
@@ -150,6 +152,12 @@ void Partitioner::setBasic()
 
 	//set timeOut
 	_timeOut = 300.0;
+
+	//set balance boundary
+	_UB = ( (1.0 + _bFactor) / 2) * _cellNum;
+	_LB = ( (1.0 - _bFactor) / 2) * _cellNum;
+	cout << "UB = " << _UB << endl;
+	cout << "LB = " << _LB << endl;
 }
 
 void Partitioner::setInitG()

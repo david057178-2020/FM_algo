@@ -21,6 +21,8 @@ PARTITIONER_H	src/partitioner.h	2;"	d
 Partitioner	src/partitioner.h	/^    Partitioner(fstream& inFile) :$/;"	f	class:Partitioner
 Partitioner	src/partitioner.h	/^class Partitioner$/;"	c
 SOURCES	Makefile	/^SOURCES=src\/partitioner.cpp src\/main.cpp$/;"	m
+_LB	src/partitioner.h	/^	double				_LB;$/;"	m	class:Partitioner
+_UB	src/partitioner.h	/^	double				_UB;$/;"	m	class:Partitioner
 _accGain	src/partitioner.h	/^    int                 _accGain;       \/\/ accumulative gain$/;"	m	class:Partitioner
 _bFactor	src/partitioner.h	/^    double              _bFactor;       \/\/ the balance factor to be met$/;"	m	class:Partitioner
 _bList	src/partitioner.h	/^    map<int, Node*>     _bList[2];      \/\/ bucket list of partition A(0) and B(1)$/;"	m	class:Partitioner
@@ -51,7 +53,7 @@ _partSize	src/partitioner.h	/^    int                 _partSize[2];   \/\/ size 
 _pinNum	src/cell.h	/^    int             _pinNum;    \/\/ number of pins the cell are connected to$/;"	m	class:Cell
 _prev	src/cell.h	/^    Node*       _prev;  \/\/ pointer to the previous node$/;"	m	class:Node
 _sizeDiff	src/partitioner.h	/^	int                 _sizeDiff;      \/\/for decideing tie _maxAccGain$/;"	m	class:Partitioner
-_timeOut	src/partitioner.h	/^    double                 _timeOut;       \/\/ avoid not stop $/;"	m	class:Partitioner
+_timeOut	src/partitioner.h	/^    double              _timeOut;       \/\/ avoid not stop $/;"	m	class:Partitioner
 addCell	src/net.h	/^    void addCell(const int& cellId)  { _cellList.push_back(cellId); }$/;"	f	class:Net
 addNet	src/cell.h	/^    void addNet(const int netId) { _netList.push_back(netId); }$/;"	f	class:Cell
 changeAllGainOnNet	src/partitioner.cpp	/^void Partitioner::changeAllGainOnNet(Net* const net, const bool& inc)$/;"	f	class:Partitioner

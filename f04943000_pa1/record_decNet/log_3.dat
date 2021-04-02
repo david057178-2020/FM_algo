@@ -1,73 +1,57 @@
-init pati: 0.001546 sec
-cutSize = 47373
-maxAccGain = 16538, happen at rount 27937
-cutSize = 30835
-maxAccGain = 2266, happen at rount 12065
-cutSize = 28569
-maxAccGain = 695, happen at rount 7722
-cutSize = 27874
-maxAccGain = 245, happen at rount 5742
-cutSize = 27629
-maxAccGain = 141, happen at rount 4903
-cutSize = 27488
-maxAccGain = 58, happen at rount 4156
-cutSize = 27430
-maxAccGain = 46, happen at rount 4148
-cutSize = 27384
-maxAccGain = 37, happen at rount 4131
-cutSize = 27347
-maxAccGain = 22, happen at rount 4010
-cutSize = 27325
-maxAccGain = 12, happen at rount 1991
-cutSize = 27313
-maxAccGain = 11, happen at rount 3355
-cutSize = 27302
-maxAccGain = 7, happen at rount 3654
-cutSize = 27295
-maxAccGain = 10, happen at rount 3156
-cutSize = 27285
-maxAccGain = 8, happen at rount 3455
-cutSize = 27277
-maxAccGain = 8, happen at rount 3517
-cutSize = 27269
-maxAccGain = 3, happen at rount 3369
-cutSize = 27266
-maxAccGain = 5, happen at rount 3570
-cutSize = 27261
-maxAccGain = 1, happen at rount 66630
-cutSize = 27260
-maxAccGain = 9, happen at rount 3734
-cutSize = 27251
-maxAccGain = 6, happen at rount 1910
-cutSize = 27245
-maxAccGain = 4, happen at rount 2605
-cutSize = 27241
-maxAccGain = 6, happen at rount 3401
-cutSize = 27235
-maxAccGain = 5, happen at rount 3419
-cutSize = 27230
-maxAccGain = 1, happen at rount 1
-cutSize = 27229
-maxAccGain = 3, happen at rount 66621
-cutSize = 27226
-maxAccGain = 3, happen at rount 3329
+init not balance
+UB = 36666.3
+LB = 29999.7
+cutSize = 47238
+maxAccGain = 16401, happen at rount 27802
+cutSize = 30837
+maxAccGain = 2349, happen at rount 12136
+cutSize = 28488
+maxAccGain = 590, happen at rount 7302
+cutSize = 27898
+maxAccGain = 283, happen at rount 5982
+cutSize = 27615
+maxAccGain = 140, happen at rount 5119
+cutSize = 27475
+maxAccGain = 89, happen at rount 4542
+cutSize = 27386
+maxAccGain = 52, happen at rount 4303
+cutSize = 27334
+maxAccGain = 56, happen at rount 4370
+cutSize = 27278
+maxAccGain = 32, happen at rount 4126
+cutSize = 27246
+maxAccGain = 23, happen at rount 4063
 cutSize = 27223
-maxAccGain = 6, happen at rount 1777
-cutSize = 27217
-maxAccGain = 2, happen at rount 2517
-cutSize = 27215
-maxAccGain = 3, happen at rount 2759
-cutSize = 27212
-maxAccGain = 1, happen at rount 1
-cutSize = 27211
-maxAccGain = 0, happen at rount -1
-5.8726 sec
+maxAccGain = 14, happen at rount 3329
+cutSize = 27209
+maxAccGain = 25, happen at rount 3600
+cutSize = 27184
+maxAccGain = 10, happen at rount 3685
+cutSize = 27174
+maxAccGain = 3, happen at rount 3774
+cutSize = 27171
+maxAccGain = 1, happen at rount 673
+cutSize = 27170
+maxAccGain = 1, happen at rount 66542
+cutSize = 27169
+maxAccGain = 16, happen at rount 3385
+cutSize = 27153
+maxAccGain = 16, happen at rount 3232
+cutSize = 27137
+maxAccGain = 17, happen at rount 4039
+cutSize = 27120
+maxAccGain = 12, happen at rount 3351
+cutSize = 27108
+maxAccGain = 7, happen at rount 3764
+cutSize = 27101
+maxAccGain = 0, happen at rount 1594
+4.28053 sec
 
 ==================== Summary ====================
- Cutsize: 27211
+ Cutsize: 27101
  Total cell number: 66666
  Total net number:  88888
- Cell Number of partition A: 33333
- Cell Number of partition B: 33333
+ Cell Number of partition A: 34928
+ Cell Number of partition B: 31738
 =================================================
 

@@ -42,9 +42,7 @@ public:
 	void setPartCountAndCutSize();
 	void setInitG();
 	bool checkBalance(const double size) const{
-		const double UB = double( ( (1.0 + _bFactor) / 2.0) * _cellNum);
-		const double LB = double( ( (1.0 - _bFactor) / 2.0) * _cellNum);		
-		return (size >= LB && size <= UB);
+		return (size >= _LB && size <= _UB);
 	}
 	void updateGain(Cell* const cell);
 	void changeAllGainOnNet(Net* const net, const bool& inc); 
@@ -87,7 +85,9 @@ private:
 
 	//my member
 	int                 _sizeDiff;      //for decideing tie _maxAccGain
-    double                 _timeOut;       // avoid not stop 
+    double              _timeOut;       // avoid not stop 
+	double				_UB;
+	double				_LB;
 	// Clean up partitioner
     void clear();
 };

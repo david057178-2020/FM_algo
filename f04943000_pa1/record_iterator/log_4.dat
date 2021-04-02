@@ -1,0 +1,96 @@
+cutSize = 82801
+maxAccGain = 30740, happen at rount 63303
+cutSize = 52061
+maxAccGain = 4670, happen at rount 27522
+cutSize = 47391
+maxAccGain = 1277, happen at rount 17722
+cutSize = 46114
+maxAccGain = 480, happen at rount 13798
+cutSize = 45634
+maxAccGain = 296, happen at rount 12714
+cutSize = 45338
+maxAccGain = 160, happen at rount 11456
+cutSize = 45178
+maxAccGain = 82, happen at rount 11184
+cutSize = 45096
+maxAccGain = 48, happen at rount 10751
+cutSize = 45048
+maxAccGain = 37, happen at rount 10591
+cutSize = 45011
+maxAccGain = 12, happen at rount 10147
+cutSize = 44999
+maxAccGain = 17, happen at rount 9207
+cutSize = 44982
+maxAccGain = 21, happen at rount 9619
+cutSize = 44961
+maxAccGain = 12, happen at rount 10235
+cutSize = 44949
+maxAccGain = 18, happen at rount 9642
+cutSize = 44931
+maxAccGain = 11, happen at rount 9388
+cutSize = 44920
+maxAccGain = 4, happen at rount 2179
+cutSize = 44916
+maxAccGain = 13, happen at rount 8075
+cutSize = 44903
+maxAccGain = 9, happen at rount 9108
+cutSize = 44894
+maxAccGain = 9, happen at rount 8880
+cutSize = 44885
+maxAccGain = 7, happen at rount 8229
+cutSize = 44878
+maxAccGain = 2, happen at rount 6803
+cutSize = 44876
+maxAccGain = 7, happen at rount 6973
+cutSize = 44869
+maxAccGain = 2, happen at rount 7533
+cutSize = 44867
+maxAccGain = 1, happen at rount 7571
+cutSize = 44866
+maxAccGain = 1, happen at rount 6247
+cutSize = 44865
+maxAccGain = 1, happen at rount 5905
+cutSize = 44864
+maxAccGain = 1, happen at rount 150696
+cutSize = 44863
+maxAccGain = 9, happen at rount 8005
+cutSize = 44854
+maxAccGain = 4, happen at rount 8376
+cutSize = 44850
+maxAccGain = 5, happen at rount 7223
+cutSize = 44845
+maxAccGain = 3, happen at rount 8370
+cutSize = 44842
+maxAccGain = 4, happen at rount 9293
+cutSize = 44838
+maxAccGain = 8, happen at rount 9234
+cutSize = 44830
+maxAccGain = 5, happen at rount 150703
+cutSize = 44825
+maxAccGain = 5, happen at rount 7497
+cutSize = 44820
+maxAccGain = 4, happen at rount 6799
+cutSize = 44816
+maxAccGain = 2, happen at rount 8611
+cutSize = 44814
+maxAccGain = 4, happen at rount 8972
+cutSize = 44810
+maxAccGain = 1, happen at rount 4474
+cutSize = 44809
+maxAccGain = 4, happen at rount 8369
+cutSize = 44805
+maxAccGain = 10, happen at rount 9015
+cutSize = 44795
+maxAccGain = 4, happen at rount 1279
+cutSize = 44791
+maxAccGain = 0, happen at rount -1
+22.6518 sec
+
+==================== Summary ====================
+ Cutsize: 44791
+ Total cell number: 150750
+ Total net number:  166998
+ Cell Number of partition A: 75375
+ Cell Number of partition B: 75375
+=================================================
+

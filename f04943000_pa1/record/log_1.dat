@@ -1,23 +1,19 @@
+init pati: 8e-06 sec
 cutSize = 2400
 maxAccGain = 977, happen at rount 1283
-0.00697 sec
 cutSize = 1423
 maxAccGain = 133, happen at rount 614
-0.004144 sec
 cutSize = 1290
 maxAccGain = 33, happen at rount 268
-0.007686 sec
 cutSize = 1257
 maxAccGain = 11, happen at rount 133
-0.003105 sec
 cutSize = 1246
 maxAccGain = 4, happen at rount 216
-0.004176 sec
 cutSize = 1242
 maxAccGain = 2, happen at rount 108
-0.003198 sec
 cutSize = 1240
 maxAccGain = 0, happen at rount -1
+0.028298 sec
 
 ==================== Summary ====================
  Cutsize: 1240

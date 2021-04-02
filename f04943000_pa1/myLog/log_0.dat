@@ -1,0 +1,77 @@
+init pati: 0.002893 sec
+cutSize = 65799
+maxAccGain = 46258, happen at rount 45403
+cutSize = 19541
+maxAccGain = 4983, happen at rount 9314
+cutSize = 14558
+maxAccGain = 524, happen at rount 3578
+cutSize = 14034
+maxAccGain = 129, happen at rount 148855
+cutSize = 13905
+maxAccGain = 567, happen at rount 3278
+cutSize = 13338
+maxAccGain = 43, happen at rount 150604
+cutSize = 13295
+maxAccGain = 139, happen at rount 2577
+cutSize = 13156
+maxAccGain = 107, happen at rount 150534
+cutSize = 13049
+maxAccGain = 57, happen at rount 2433
+cutSize = 12992
+maxAccGain = 30, happen at rount 149951
+cutSize = 12962
+maxAccGain = 130, happen at rount 2288
+cutSize = 12832
+maxAccGain = 16, happen at rount 150652
+cutSize = 12816
+maxAccGain = 33, happen at rount 150093
+cutSize = 12783
+maxAccGain = 111, happen at rount 1114
+cutSize = 12672
+maxAccGain = 35, happen at rount 150355
+cutSize = 12637
+maxAccGain = 43, happen at rount 2362
+cutSize = 12594
+maxAccGain = 35, happen at rount 150487
+cutSize = 12559
+maxAccGain = 27, happen at rount 1254
+cutSize = 12532
+maxAccGain = 15, happen at rount 150630
+cutSize = 12517
+maxAccGain = 27, happen at rount 1864
+cutSize = 12490
+maxAccGain = 37, happen at rount 150695
+cutSize = 12453
+maxAccGain = 19, happen at rount 150220
+cutSize = 12434
+maxAccGain = 140, happen at rount 2337
+cutSize = 12294
+maxAccGain = 12, happen at rount 150727
+cutSize = 12282
+maxAccGain = 13, happen at rount 1738
+cutSize = 12269
+maxAccGain = 1, happen at rount 150731
+cutSize = 12268
+maxAccGain = 9, happen at rount 31
+cutSize = 12259
+maxAccGain = 8, happen at rount 150735
+cutSize = 12251
+maxAccGain = 14, happen at rount 49
+cutSize = 12237
+maxAccGain = 12, happen at rount 150737
+cutSize = 12225
+maxAccGain = 3, happen at rount 401
+cutSize = 12222
+maxAccGain = 8, happen at rount 150740
+cutSize = 12214
+maxAccGain = 0, happen at rount 8
+2429.42 sec
+
+==================== Summary ====================
+ Cutsize: 12214
+ Total cell number: 150750
+ Total net number:  166998
+ Cell Number of partition A: 75366
+ Cell Number of partition B: 75384
+=================================================
+

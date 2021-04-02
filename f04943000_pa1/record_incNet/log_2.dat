@@ -1,0 +1,29 @@
+init pati: 4.6e-05 sec
+cutSize = 4470
+maxAccGain = 1917, happen at rount 2794
+cutSize = 2553
+maxAccGain = 240, happen at rount 1089
+cutSize = 2313
+maxAccGain = 53, happen at rount 707
+cutSize = 2260
+maxAccGain = 32, happen at rount 489
+cutSize = 2228
+maxAccGain = 8, happen at rount 402
+cutSize = 2220
+maxAccGain = 4, happen at rount 420
+cutSize = 2216
+maxAccGain = 3, happen at rount 57
+cutSize = 2213
+maxAccGain = 1, happen at rount 6992
+cutSize = 2212
+maxAccGain = 0, happen at rount 0
+0.072539 sec
+
+==================== Summary ====================
+ Cutsize: 2212
+ Total cell number: 7000
+ Total net number:  10000
+ Cell Number of partition A: 3499
+ Cell Number of partition B: 3501
+=================================================
+

@@ -1,0 +1,79 @@
+init pati: 0.002801 sec
+cutSize = 82803
+maxAccGain = 30863, happen at rount 63333
+cutSize = 51940
+maxAccGain = 4625, happen at rount 26773
+cutSize = 47315
+maxAccGain = 1153, happen at rount 16759
+cutSize = 46162
+maxAccGain = 538, happen at rount 13887
+cutSize = 45624
+maxAccGain = 233, happen at rount 12065
+cutSize = 45391
+maxAccGain = 133, happen at rount 11410
+cutSize = 45258
+maxAccGain = 92, happen at rount 10882
+cutSize = 45166
+maxAccGain = 51, happen at rount 10684
+cutSize = 45115
+maxAccGain = 27, happen at rount 10277
+cutSize = 45088
+maxAccGain = 31, happen at rount 10319
+cutSize = 45057
+maxAccGain = 16, happen at rount 10420
+cutSize = 45041
+maxAccGain = 20, happen at rount 9929
+cutSize = 45021
+maxAccGain = 14, happen at rount 10011
+cutSize = 45007
+maxAccGain = 8, happen at rount 9753
+cutSize = 44999
+maxAccGain = 7, happen at rount 150650
+cutSize = 44992
+maxAccGain = 18, happen at rount 8376
+cutSize = 44974
+maxAccGain = 7, happen at rount 8999
+cutSize = 44967
+maxAccGain = 5, happen at rount 9746
+cutSize = 44962
+maxAccGain = 4, happen at rount 4144
+cutSize = 44958
+maxAccGain = 9, happen at rount 7649
+cutSize = 44949
+maxAccGain = 4, happen at rount 7293
+cutSize = 44945
+maxAccGain = 3, happen at rount 8871
+cutSize = 44942
+maxAccGain = 7, happen at rount 8315
+cutSize = 44935
+maxAccGain = 4, happen at rount 8745
+cutSize = 44931
+maxAccGain = 3, happen at rount 8637
+cutSize = 44928
+maxAccGain = 1, happen at rount 4247
+cutSize = 44927
+maxAccGain = 5, happen at rount 150633
+cutSize = 44922
+maxAccGain = 20, happen at rount 7947
+cutSize = 44902
+maxAccGain = 17, happen at rount 9375
+cutSize = 44885
+maxAccGain = 8, happen at rount 9025
+cutSize = 44877
+maxAccGain = 4, happen at rount 7191
+cutSize = 44873
+maxAccGain = 5, happen at rount 8697
+cutSize = 44868
+maxAccGain = 1, happen at rount 1
+cutSize = 44867
+maxAccGain = 0, happen at rount -1
+17.15 sec
+
+==================== Summary ====================
+ Cutsize: 44867
+ Total cell number: 150750
+ Total net number:  166998
+ Cell Number of partition A: 75375
+ Cell Number of partition B: 75375
+=================================================
+

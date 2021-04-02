@@ -1,0 +1,23 @@
+input0
+cut = 12214
+2609 sec
+
+input1
+cut = 1240
+0.028298 sec
+
+input2
+cut = 2204
+0.05549 sec
+
+input3
+cut = 27019
+5.98608 sec
+
+input4
+cut = 44791
+20.3504 sec
+
+input5
+cut = 143110
+55.828 sec

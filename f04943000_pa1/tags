@@ -86,7 +86,6 @@ move	src/cell.h	/^    void move()         { _part = !_part; }$/;"	f	class:Cell
 parseInput	src/partitioner.cpp	/^void Partitioner::parseInput(fstream& inFile)$/;"	f	class:Partitioner
 partition	src/partitioner.cpp	/^void Partitioner::partition()$/;"	f	class:Partitioner
 pickBaseCell	src/partitioner.cpp	/^Cell* Partitioner::pickBaseCell()$/;"	f	class:Partitioner
-printBList	src/partitioner.cpp	/^void Partitioner::printBList()$/;"	f	class:Partitioner
 printSummary	src/partitioner.cpp	/^void Partitioner::printSummary() const$/;"	f	class:Partitioner
 reportCell	src/partitioner.cpp	/^void Partitioner::reportCell() const$/;"	f	class:Partitioner
 reportNet	src/partitioner.cpp	/^void Partitioner::reportNet() const$/;"	f	class:Partitioner

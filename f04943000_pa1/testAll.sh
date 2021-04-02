@@ -2,9 +2,9 @@
 
 IPATH="../input_pa1"
 OPATH="./myOutput"
-LOGPATH="./myLog"
-#make clean
-#make
+LOGPATH="./record_decNet"
+make clean
+make
 
 for i in $(seq 1 5)
 do

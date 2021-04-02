@@ -1,0 +1,2 @@
+rm -rf *.o bin/fm
+g++ -std=c++11 -O3 -lm src/partitioner.cpp src/main.cpp -o bin/fm
